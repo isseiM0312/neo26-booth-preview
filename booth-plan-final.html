@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEO26 確定プラン — サイン①②③反映</title>
+<style>
+  :root{--bg:#0e0f11;--panel:#17191c;--line:#2a2f36;--text:#e7e9ec;--muted:#9aa1a9;--blue:#3b82f6;--hot:#f59e0b;--ok:#6ee7b7}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:"Hiragino Sans","Segoe UI",sans-serif;line-height:1.55;padding:28px}
+  h1{font-size:20px}
+  .sub{color:var(--muted);font-size:13px;margin:6px 0 18px;max-width:960px}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:#143024;color:var(--ok);margin-left:8px;vertical-align:middle}
+  .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+  @media(max-width:960px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  h2{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+  svg{width:100%;height:auto;display:block}
+  .item{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:8px}
+  .item h3{font-size:13.5px;margin-bottom:4px}
+  .item p{font-size:12.5px;color:#c7ccd3}
+  .n{color:var(--hot);font-weight:800}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .links a{display:inline-block;padding:8px 14px;border-radius:8px;background:#1b2434;border:1px solid #2c3a4d;color:#cfe0f5;text-decoration:none;font-size:13px}
+  .links a:hover{background:#223047}
+  .thumbs{display:grid;grid-template-columns:80px 1fr 1.4fr;gap:8px;margin-top:12px}
+  .thumbs img{width:100%;border-radius:6px;border:1px solid var(--line);background:#000;object-fit:cover}
+  .thumbs .t1{aspect-ratio:1030/3650;max-height:220px;object-fit:contain;background:#05070b}
+  .thumbs .t2{aspect-ratio:2310/1750;object-fit:contain;background:#05070b}
+  .thumbs .t3{grid-column:1/-1;aspect-ratio:1960/300;object-fit:contain;background:#05070b}
+</style>
+</head>
+<body>
+<h1>NEO26 確定プラン <span class="badge">FINAL</span></h1>
+<p class="sub">
+  ブース <b style="color:#fff">4000 × 6000 mm</b>／床 <b style="color:#fff">AX3ブルー確定</b>／壁 L字（西＋南）黒＋青帯／開口 北＋東。<br>
+  サイン入稿は Figma仕上げ → .ai 送付済みの最終版を反映。
+</p>
+
+<div class="grid">
+  <div class="card">
+    <h2>平面図（確定）</h2>
+    <!-- scale: 1m = 70px; booth origin bottom-left of carpet at (90, 70+420)= south-west
+         carpet: x=90..370 (280px=4m), y=70..490 (420px=6m)
+         N=top(y small), S=bottom, W=left, E=right
+    -->
+    <svg viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg">
+      <text x="230" y="28" fill="#f59e0b" font-size="13" text-anchor="middle" font-weight="700">▲ 北 OPEN（セミナー方面）</text>
+      <text x="230" y="548" fill="#6b7280" font-size="11" text-anchor="middle">▼ 南＝L字の背</text>
+      <text x="505" y="280" fill="#f59e0b" font-size="12" text-anchor="middle" font-weight="700" transform="rotate(90 505 280)">東 OPEN（大通り）</text>
+      <text x="18" y="280" fill="#9aa1a9" font-size="11" text-anchor="middle" transform="rotate(-90 18 280)">西壁</text>
+
+      <!-- east avenue hint -->
+      <rect x="390" y="70" width="50" height="420" fill="#1a1510" stroke="#f59e0b" stroke-dasharray="5 4" opacity=".7"/>
+
+      <!-- carpet 4×6 -->
+      <rect x="90" y="70" width="280" height="420" rx="2" fill="#1e4fd6" stroke="#60a5fa" stroke-width="2"/>
+      <text x="230" y="300" fill="#93c5fd" font-size="11" text-anchor="middle" opacity=".55">AX3ブルー 4000×6000</text>
+
+      <!-- West wall ~4430 from south: most of west edge -->
+      <rect x="90" y="100" width="14" height="390" fill="#0b0f14" stroke="#94a3b8"/>
+      <rect x="102" y="100" width="5" height="390" fill="#1e4fd6"/>
+
+      <!-- South wall ~2680 from west -->
+      <rect x="90" y="476" width="188" height="14" fill="#0b0f14" stroke="#94a3b8"/>
+      <rect x="90" y="476" width="188" height="5" fill="#1e4fd6"/>
+
+      <!-- open NE dash -->
+      <path d="M104 70 L370 70 L370 476" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 4" opacity=".85"/>
+
+      <!-- ② wall panel: 2310×1750, bottom 900 on west inner -->
+      <!-- west wall center ~ z from south: westLen 4.43 starting near south
+           panel at westZc+0.1 ≈ middle-south of west wall
+           In top view: west face, height doesn't show — show as orange strip on wall
+           Length along wall 2.31m = 162px; place from y≈ 70+ (6-0.785-1.155)*70 ...
+           westZc = 0.785 from center → from south edge: 3-0.785 wait
+           BD=6, westZc = 3 - 4.43/2 = 0.785 (from center toward south? BD/2 - westLen/2 = 3 - 2.215 = 0.785)
+           Center of booth z=0 at carpet mid y=70+210=280
+           panel z = westZc+0.1 = 0.885 → y = 280 + 0.885*70 = 342
+           panel length 2.31 → half 1.155 → y from 342-81=261 to 342+81=423
+      -->
+      <rect x="108" y="261" width="10" height="162" fill="#f59e0b" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="145" y="340" fill="#fbbf24" font-size="12" font-weight="700">②</text>
+      <text x="145" y="356" fill="#e7e9ec" font-size="9">2310×1750</text>
+      <text x="145" y="368" fill="#9aa1a9" font-size="8.5">床上900</text>
+
+      <!-- ③ logo 1960×300 on south inner upper — top view as thin bar -->
+      <!-- southXc = -0.66 → x = 230 + (-0.66)*70 = 184; width 1.96m=137px → x from 184-68.5=115.5 -->
+      <rect x="116" y="468" width="137" height="8" fill="#f59e0b" stroke="#fbbf24"/>
+      <text x="185" y="458" fill="#fbbf24" font-size="12" font-weight="700" text-anchor="middle">③ 1960×300</text>
+
+      <!-- ① tower NE: at (1.45, -1.9) → x=230+1.45*70=331.5, y=280-1.9*70=147; rotated 45° -->
+      <g transform="translate(332,147) rotate(-45)">
+        <rect x="-18" y="-36" width="36" height="72" rx="2" fill="#0b0f14" stroke="#60a5fa" stroke-width="2"/>
+        <rect x="-20" y="-36" width="6" height="72" fill="#f59e0b"/>
+      </g>
+      <text x="370" y="120" fill="#fbbf24" font-size="13" font-weight="700">①</text>
+      <text x="370" y="136" fill="#e7e9ec" font-size="9">1030×3650</text>
+      <text x="370" y="148" fill="#9aa1a9" font-size="8.5">NE・北〜東向き</text>
+
+      <!-- counters east -->
+      <rect x="340" y="250" width="22" height="50" rx="2" fill="#2a2114" stroke="#f59e0b"/>
+      <rect x="340" y="310" width="22" height="50" rx="2" fill="#2a2114" stroke="#f59e0b"/>
+      <text x="352" y="380" fill="#9aa1a9" font-size="8" text-anchor="middle">ｶｳﾝﾀｰ×2</text>
+
+      <!-- tables -->
+      <circle cx="167" cy="343" r="12" fill="#1f2937" stroke="#93c5fd"/>
+      <circle cx="167" cy="420" r="12" fill="#1f2937" stroke="#93c5fd"/>
+      <text x="200" y="400" fill="#9aa1a9" font-size="8">商談Φ600×2</text>
+
+      <text x="230" y="200" fill="#6b7280" font-size="10" text-anchor="middle">デモなし</text>
+    </svg>
+  </div>
+
+  <div>
+    <div class="item">
+      <h3><span class="n">①</span> タワーサイン</h3>
+      <p>グラフィック <b>w1030 × h3650 mm</b>（本体目安 w990×d495×h3600）<br>
+      北東配置・サイン面は北〜東の開口向け</p>
+    </div>
+    <div class="item">
+      <h3><span class="n">②</span> 壁面パネル</h3>
+      <p><b>w2310 × h1750 mm</b>／西壁内側／床上 <b>900 mm</b><br>
+      L字内側＝北東からの視線の主面</p>
+    </div>
+    <div class="item">
+      <h3><span class="n">③</span> ロゴ帯</h3>
+      <p><b>w1960 × h300 mm</b>／南壁内側・上部<br>
+      Wanderlust lockup（ベクタ）</p>
+    </div>
+    <div class="item">
+      <h3>ブース固定条件</h3>
+      <p>床 AX3ブルー確定／壁 黒＋青帯150／開口 北＋東／デモなし／カウンター東寄り×2＋Φ600×2</p>
+    </div>
+
+    <div class="thumbs">
+      <img class="t1" src="sign-01-tower-fit.png?v=final" alt="①">
+      <img class="t2" src="sign-02-wall-fit.png?v=final" alt="②">
+      <img class="t3" src="sign-03-logo-fit.png?v=final" alt="③">
+    </div>
+
+    <div class="links">
+      <a href="booth-preview-signs.html">3Dプレビュー（最終サイン貼付）</a>
+      <a href="booth-sign-map-0722.html">位置マップ</a>
+      <a href="signs-index.html">入稿インデックス</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

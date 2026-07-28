@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEO26 ブースプレビュー — 最終確定サイン①②③</title>
+<style>
+  :root { --bg:#0c0d10; --panel:#14171c; --line:#2a3038; --text:#e8eaed; --muted:#8b929b; --accent:#6ea0ff; --hot:#f59e0b; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:"Hiragino Sans","Segoe UI",sans-serif; height:100vh; overflow:hidden; }
+  #app { display:grid; grid-template-columns:280px 1fr; height:100vh; }
+  aside { background:var(--panel); border-right:1px solid var(--line); padding:16px; overflow-y:auto; }
+  h1 { font-size:14px; font-weight:700; }
+  .sub { color:var(--muted); font-size:11.5px; line-height:1.5; margin:8px 0 14px; }
+  button {
+    display:block; width:100%; text-align:left; cursor:pointer;
+    background:#101317; color:var(--text); border:1px solid var(--line);
+    border-radius:8px; padding:9px 10px; margin-bottom:6px; font-size:12px;
+  }
+  button:hover, button.active { border-color:var(--accent); background:#152038; }
+  .note { font-size:11px; line-height:1.5; color:var(--muted); background:#101317; border:1px solid var(--line); border-radius:8px; padding:10px; margin-top:12px; }
+  .note b { color:var(--hot); }
+  #stage { position:relative; min-width:0; min-height:0; height:100%; }
+  canvas { display:block; width:100%; height:100%; }
+  #hud { position:absolute; left:12px; bottom:12px; display:flex; gap:6px; flex-wrap:wrap; }
+  #hud button { width:auto; border-radius:999px; padding:7px 12px; font-size:11px; }
+  #err { display:none; position:absolute; inset:12px; background:#3a1515; border:1px solid #a33; color:#fcc; border-radius:10px; padding:14px; font-size:12px; z-index:5; white-space:pre-wrap; }
+</style>
+</head>
+<body>
+<div id="app">
+  <aside>
+    <h1>最終確定サイン貼付</h1>
+    <p class="sub">0722確定プラン（4×6・L字・AX3ブルー）＋Figma最終①②③をテクスチャ貼り。</p>
+    <div id="cams"></div>
+    <div class="note">
+      <b>①</b> 1030×3650 — タワーNE<br>
+      <b>②</b> 2310×1750 — 西壁・床上900<br>
+      <b>③</b> 1960×300 — 南壁上部<br>
+      <a href="booth-plan-final.html" style="color:#6ea0ff">確定プランを開く →</a>
+    </div>
+  </aside>
+  <div id="stage">
+    <div id="err"></div>
+    <div id="hud">
+      <button id="orbit">⟲ 回す</button>
+      <button id="reset">俯瞰</button>
+    </div>
+  </div>
+</div>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const errEl = document.getElementById("err");
+window.addEventListener("error", (e) => { errEl.style.display = "block"; errEl.textContent = e.message; });
+window.addEventListener("unhandledrejection", (e) => { errEl.style.display = "block"; errEl.textContent = String(e.reason); });
+
+const BW = 4, BD = 6;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1a1d24);
+
+const camera = new THREE.PerspectiveCamera(42, 1, 0.05, 80);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0x1a1d24, 1);
+renderer.shadowMap.enabled = true;
+document.querySelector("#stage").appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.target.set(0, 1.3, 0);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x333344, 0.7));
+const key = new THREE.DirectionalLight(0xffffff, 1.0);
+key.position.set(5, 10, 4);
+key.castShadow = true;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0x6688ff, 0.55);
+fill.position.set(-5, 4, -3);
+scene.add(fill);
+scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+
+function resize() {
+  const st = document.querySelector("#stage");
+  const w = Math.max(st.clientWidth, 1), h = Math.max(st.clientHeight, 1);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h, false);
+}
+addEventListener("resize", resize);
+resize();
+requestAnimationFrame(resize);
+
+const matBlack = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.7 });
+const matBlue = new THREE.MeshStandardMaterial({ color: 0x1e4fd6, roughness: 0.5 });
+const matCarpet = new THREE.MeshStandardMaterial({ color: 0x1e4fd6, roughness: 0.9 });
+const matHall = new THREE.MeshStandardMaterial({ color: 0x3a3f48, roughness: 0.95 });
+const matChrome = new THREE.MeshStandardMaterial({ color: 0xb8b8b8, metalness: 0.85, roughness: 0.25 });
+const matWhite = new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.55 });
+
+function box(w, h, d, mat, x, y, z, rotY = 0) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y, z);
+  m.rotation.y = rotY;
+  m.castShadow = true;
+  m.receiveShadow = true;
+  scene.add(m);
+  return m;
+}
+
+function loadTex(url) {
+  return new Promise((resolve) => {
+    new THREE.TextureLoader().load(
+      url,
+      (t) => { t.colorSpace = THREE.SRGBColorSpace; resolve(t); },
+      undefined,
+      () => resolve(null)
+    );
+  });
+}
+
+const WALL_H = 2.7, WALL_T = 0.08;
+const westLen = 4.43, southLen = 2.68;
+const westZc = BD / 2 - westLen / 2;
+const southXc = -BW / 2 + southLen / 2;
+
+// hall + carpet
+{
+  const hall = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), matHall);
+  hall.rotation.x = -Math.PI / 2;
+  hall.position.y = -0.01;
+  scene.add(hall);
+  const carpet = new THREE.Mesh(new THREE.PlaneGeometry(BW, BD), matCarpet);
+  carpet.rotation.x = -Math.PI / 2;
+  carpet.position.y = 0.002;
+  scene.add(carpet);
+}
+
+// L walls
+box(WALL_T, WALL_H, westLen, matBlack, -BW / 2 + WALL_T / 2, WALL_H / 2, westZc);
+box(southLen, WALL_H, WALL_T, matBlack, southXc, WALL_H / 2, BD / 2 - WALL_T / 2);
+box(WALL_T + 0.01, 0.15, westLen, matBlue, -BW / 2 + WALL_T / 2 - 0.006, WALL_H - 0.075, westZc);
+box(southLen, 0.15, WALL_T + 0.01, matBlue, southXc, WALL_H - 0.075, BD / 2 - WALL_T / 2 + 0.006);
+
+// furniture
+box(0.45, 1.0, 0.9, matBlack, BW / 2 - 0.45, 0.5, -0.3);
+box(0.45, 1.0, 0.9, matBlack, BW / 2 - 0.45, 0.5, 0.7);
+function table(x, z) {
+  const top = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.04, 28), matBlack);
+  top.position.set(x, 1.0, z); scene.add(top);
+  const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 1.0, 12), matChrome);
+  leg.position.set(x, 0.5, z); scene.add(leg);
+}
+function chair(x, z) {
+  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.05, 0.36), matWhite);
+  seat.position.set(x, 0.72, z); scene.add(seat);
+  const back = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.32, 0.04), matWhite);
+  back.position.set(x, 0.9, z - 0.16); scene.add(back);
+}
+table(-0.9, 0.9); table(-0.9, 2.0);
+chair(-1.35, 0.9); chair(-0.45, 0.9);
+chair(-1.35, 2.0); chair(-0.45, 2.0);
+
+// spots on wall
+[[-1.8, 1.2], [-1.8, 2.5], [-0.4, 2.85]].forEach(([x, z]) => {
+  const bulb = new THREE.PointLight(0xfff2dd, 5, 4.5);
+  bulb.position.set(x, WALL_H - 0.15, z);
+  scene.add(bulb);
+});
+
+const tw = 1.03, td = 0.495, th = 3.65;
+const tx = BW / 2 - 0.55, tz = -BD / 2 + 1.1, rot = -Math.PI / 4;
+box(tw, th, td, matBlack, tx, th / 2, tz, rot);
+const faceDir = new THREE.Vector2(Math.sin(rot + Math.PI), Math.cos(rot + Math.PI));
+const towerSpot = new THREE.SpotLight(0xffffff, 14, 12, Math.PI / 5, 0.4);
+towerSpot.position.set(tx + faceDir.x * 1.6, th + 0.6, tz + faceDir.y * 1.6);
+towerSpot.target.position.set(tx + faceDir.x * 0.3, 2.0, tz + faceDir.y * 0.3);
+scene.add(towerSpot); scene.add(towerSpot.target);
+const towerFill = new THREE.PointLight(0xdfe8ff, 6, 5);
+towerFill.position.set(tx + faceDir.x * 1.1, 1.7, tz + faceDir.y * 1.1);
+scene.add(towerFill);
+
+const [tex1, tex2, tex3] = await Promise.all([
+  loadTex("sign-01-tower-fit.png?v=final"),
+  loadTex("sign-02-wall-fit.png?v=final"),
+  loadTex("sign-03-logo-fit.png?v=final"),
+]);
+
+// ② wall
+{
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xffffff, map: tex2, roughness: 0.4,
+    emissive: 0x111122, emissiveIntensity: 0.35, emissiveMap: tex2,
+  });
+  const panel = new THREE.Mesh(new THREE.PlaneGeometry(2.31, 1.75), mat);
+  panel.position.set(-BW / 2 + WALL_T + 0.03, 0.9 + 1.75 / 2, westZc + 0.1);
+  panel.rotation.y = Math.PI / 2;
+  scene.add(panel);
+}
+
+// ③ logo
+{
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xffffff, map: tex3, roughness: 0.4,
+    emissive: 0x0a1528, emissiveIntensity: 0.25, emissiveMap: tex3,
+  });
+  const logo = new THREE.Mesh(new THREE.PlaneGeometry(1.96, 0.3), mat);
+  logo.position.set(southXc - 0.1, WALL_H - 0.35, BD / 2 - WALL_T - 0.03);
+  logo.rotation.y = Math.PI;
+  scene.add(logo);
+}
+
+// ① tower face
+{
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xffffff, map: tex1, roughness: 0.38,
+    emissive: 0x101828, emissiveIntensity: 0.4, emissiveMap: tex1,
+  });
+  const faceRot = rot + Math.PI;
+  const off = td / 2 + 0.02;
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(1.03, 3.65), mat);
+  face.position.set(tx + Math.sin(faceRot) * off, th / 2, tz + Math.cos(faceRot) * off);
+  face.rotation.y = faceRot;
+  scene.add(face);
+}
+
+const CAMS = [
+  { id: "aerial", label: "俯瞰", pos: [5.5, 6.8, 5.2], look: [0, 1.2, 0] },
+  { id: "north", label: "北から（①②正面）", pos: [0.4, 1.65, -7], look: [0.5, 1.6, 0.5] },
+  { id: "east", label: "東大通りから", pos: [7.2, 1.65, 0.2], look: [0.4, 1.6, 0.3] },
+  { id: "ne", label: "北東開口", pos: [5.2, 1.7, -4.8], look: [0.3, 1.7, 0.6] },
+  { id: "wall", label: "②壁面寄り", pos: [1.0, 1.65, westZc + 0.2], look: [-1.8, 1.7, westZc + 0.1] },
+  { id: "tower", label: "①タワー寄り", pos: [tx + 2.4, 2.0, tz - 2.4], look: [tx, 1.9, tz] },
+];
+
+function setCam(c) {
+  camera.position.set(...c.pos);
+  controls.target.set(...c.look);
+  document.querySelectorAll("#cams button").forEach((b) => b.classList.toggle("active", b.dataset.id === c.id));
+}
+const camsEl = document.getElementById("cams");
+CAMS.forEach((c) => {
+  const b = document.createElement("button");
+  b.dataset.id = c.id;
+  b.textContent = c.label;
+  b.onclick = () => { autoOrbit = false; setCam(c); };
+  camsEl.appendChild(b);
+});
+setCam(CAMS[0]);
+
+let autoOrbit = false;
+document.getElementById("orbit").onclick = () => { autoOrbit = !autoOrbit; };
+document.getElementById("reset").onclick = () => { autoOrbit = false; setCam(CAMS[0]); };
+
+function tick() {
+  requestAnimationFrame(tick);
+  if (autoOrbit) {
+    const t = performance.now() * 0.0002;
+    camera.position.set(Math.cos(t) * 7.5, 5.2, Math.sin(t) * 7.5);
+    controls.target.set(0, 1.3, 0);
+  }
+  controls.update();
+  renderer.render(scene, camera);
+}
+tick();
+</script>
+</body>
+</html>
