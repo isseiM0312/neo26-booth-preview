@@ -2,46 +2,46 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>NEO26 ④a 会社紹介 940×900mm</title>
+<title>NEO26 ④a 会社紹介 A1縦 594×841mm</title>
 <link rel="stylesheet" href="sign-common.css">
 <style>
-  @page { size: 940mm 900mm; margin: 0; }
-  .board { width: 940mm; height: 900mm; }
+  @page { size: 594mm 841mm; margin: 0; }
+  .board { width: 594mm; height: 841mm; }
 
-  /* ④a ロゴ下・左 940×900 / 床上1200〜2100
-     上半分(450)＝会社紹介スライド、下半分(450)＝空白 */
+  /* ④a ロゴ下・左 = A1縦（JIS）
+     上半分≒420＝会社紹介、下半分≒421＝空白
+     床上 1259〜2100（③ロゴ下端2200の下／椅子背より上） */
 
   #band-top { top: 0; height: 8mm; }
 
   #panel-top {
-    left: 0; top: 0; width: 940mm; height: 450mm;
+    left: 0; top: 0; width: 594mm; height: 420mm;
     overflow: hidden;
   }
   #panel-top img {
     position: absolute;
-    left: 30mm; top: 36mm;
-    width: 880mm; height: auto;
-    /* ソース ~2.7:1 → 880×326 程度で上半分に収める */
+    left: 24mm; top: 40mm;
+    width: 546mm; height: auto;
   }
 
   #panel-bottom {
-    left: 0; top: 450mm; width: 940mm; height: 450mm;
+    left: 0; top: 420mm; width: 594mm; height: 421mm;
     background: var(--ink);
   }
 
   #split {
-    left: 40mm; top: 450mm; width: 860mm; height: 0.6mm;
+    left: 32mm; top: 420mm; width: 530mm; height: 0.6mm;
     background: #1a212c;
   }
 
   #meta {
-    position: absolute; left: 40mm; right: 40mm; bottom: 18mm;
-    font-size: 12mm; color: #5a6575;
+    position: absolute; left: 28mm; right: 28mm; bottom: 16mm;
+    font-size: 10mm; color: #5a6575;
     display: flex; justify-content: space-between;
   }
   #blank-note {
-    position: absolute; left: 0; top: 620mm; width: 940mm;
-    text-align: center; font-size: 16mm; color: #3a4454;
+    position: absolute; left: 0; top: 580mm; width: 594mm;
+    text-align: center; font-size: 14mm; color: #3a4454;
     letter-spacing: 0.08em;
   }
 </style>
@@ -49,7 +49,7 @@
 <body>
 
 <div class="toolbar noprint">
-  <b>④a 会社紹介</b> 940×900mm · 上半分コンテンツ／下半分空白 · 床上1200〜2100
+  <b>④a 会社紹介</b> A1縦 594×841mm · 上半分コンテンツ／下半分空白
   <button onclick="setZoom('fit')">画面に合わせる</button>
   <button onclick="setZoom(0.4)">40%</button>
   <button onclick="setZoom(1)">実寸 100%</button>
@@ -58,7 +58,7 @@
 </div>
 
 <div class="stage">
-<div class="board" id="board" data-w="940" data-h="900">
+<div class="board" id="board" data-w="594" data-h="841">
 
   <div class="band" id="band-top"></div>
 
@@ -71,8 +71,8 @@
   <div class="layer" id="blank-note">（下半分 · 空白）</div>
 
   <div id="meta">
-    <span>④a 940×900mm · 南壁内側・ロゴ下・左 · 上半分＝会社紹介</span>
-    <span>床上 1200〜2100mm</span>
+    <span>④a A1縦 594×841mm · ロゴ下・左</span>
+    <span>床上 1259〜2100mm</span>
   </div>
 
   <div class="guides" id="g"><div class="safe"></div><div class="center"></div></div>
@@ -95,7 +95,6 @@ if (raster && raster !== "print") {
   document.documentElement.classList.add("raster");
   document.getElementById("board").style.zoom =
     Number(raster) / (Number(document.getElementById("board").dataset.w) * PX_PER_MM);
-  // ラスタ時は空白メモを消す
   const n = document.getElementById("blank-note");
   if (n) n.style.display = "none";
   const m = document.getElementById("meta");

@@ -2,65 +2,65 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>NEO26 ④b 目利きチェック 940×900mm</title>
+<title>NEO26 ④b 目利きチェック A1縦 594×841mm</title>
 <link rel="stylesheet" href="sign-common.css">
 <style>
-  @page { size: 940mm 900mm; margin: 0; }
-  .board { width: 940mm; height: 900mm; }
+  @page { size: 594mm 841mm; margin: 0; }
+  .board { width: 594mm; height: 841mm; }
 
-  #band-top { top: 0; height: 10mm; }
+  #band-top { top: 0; height: 8mm; }
 
   #eyebrow {
-    left: 48mm; top: 28mm; right: 48mm;
-    font-size: 18mm; color: var(--sky); letter-spacing: 0.04em;
+    left: 36mm; top: 28mm; right: 36mm;
+    font-size: 16mm; color: var(--sky); letter-spacing: 0.04em;
   }
   #title {
-    left: 48mm; top: 58mm; right: 48mm;
-    font-size: 40mm; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em;
+    left: 36mm; top: 56mm; right: 36mm;
+    font-size: 36mm; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em;
   }
   #title .bar {
-    display: inline-block; width: 10mm; height: 36mm;
+    display: inline-block; width: 8mm; height: 32mm;
     background: var(--sky); border-radius: 2mm;
-    margin-right: 14mm; vertical-align: -2mm;
+    margin-right: 12mm; vertical-align: -2mm;
   }
   #sub {
-    left: 72mm; top: 112mm; right: 48mm;
-    font-size: 17mm; color: var(--dim);
+    left: 56mm; top: 108mm; right: 36mm;
+    font-size: 15mm; color: var(--dim);
   }
 
   .chk {
-    position: absolute; left: 48mm; width: 844mm; height: 118mm;
+    position: absolute; left: 36mm; width: 522mm; height: 108mm;
     background: var(--card); border: 0.8mm solid var(--line); border-radius: 10mm;
   }
   .chk .n {
-    position: absolute; left: 24mm; top: 18mm;
-    font-size: 18mm; font-weight: 700; color: var(--sky);
+    position: absolute; left: 20mm; top: 16mm;
+    font-size: 16mm; font-weight: 700; color: var(--sky);
   }
   .chk .k {
-    position: absolute; left: 24mm; top: 44mm;
-    font-size: 30mm; font-weight: 800;
+    position: absolute; left: 20mm; top: 40mm;
+    font-size: 28mm; font-weight: 800;
   }
   .chk .v {
-    position: absolute; left: 200mm; right: 24mm; top: 40mm;
-    font-size: 20mm; color: var(--dim); line-height: 1.35;
+    position: absolute; left: 160mm; right: 18mm; top: 36mm;
+    font-size: 16mm; color: var(--dim); line-height: 1.35;
   }
 
   #closer {
-    left: 48mm; top: 700mm; width: 844mm; height: 140mm;
+    left: 36mm; top: 660mm; width: 522mm; height: 120mm;
     background: #0f2042; border: 0.8mm solid #264682; border-radius: 10mm;
   }
   #closer .a {
-    position: absolute; left: 28mm; right: 28mm; top: 28mm;
-    font-size: 30mm; font-weight: 800; line-height: 1.25;
+    position: absolute; left: 22mm; right: 22mm; top: 24mm;
+    font-size: 26mm; font-weight: 800; line-height: 1.25;
   }
   #closer .b {
-    position: absolute; left: 28mm; right: 28mm; top: 90mm;
-    font-size: 18mm; color: #b0c8f0;
+    position: absolute; left: 22mm; right: 22mm; top: 78mm;
+    font-size: 15mm; color: #b0c8f0;
   }
 
   #meta {
-    position: absolute; left: 48mm; bottom: 14mm; right: 48mm;
-    font-size: 12mm; color: #5a6575;
+    position: absolute; left: 28mm; right: 28mm; bottom: 14mm;
+    font-size: 10mm; color: #5a6575;
     display: flex; justify-content: space-between;
   }
 </style>
@@ -68,7 +68,7 @@
 <body>
 
 <div class="toolbar noprint">
-  <b>④b 4観点</b> 940×900mm · 床上1200〜2100
+  <b>④b 4観点</b> A1縦 594×841mm · ロゴ下・右
   <button onclick="setZoom('fit')">画面に合わせる</button>
   <button onclick="setZoom(0.4)">40%</button>
   <button onclick="setZoom(1)">実寸 100%</button>
@@ -77,7 +77,7 @@
 </div>
 
 <div class="stage">
-<div class="board" id="board" data-w="940" data-h="900">
+<div class="board" id="board" data-w="594" data-h="841">
 
   <div class="band" id="band-top"></div>
 
@@ -85,22 +85,22 @@
   <div class="layer" id="title"><span class="bar"></span>目利きチェック · 4観点</div>
   <div class="layer" id="sub">その場で一緒に振り分けます。</div>
 
-  <div class="chk" style="top:160mm">
+  <div class="chk" style="top:150mm">
     <div class="n">A</div>
     <div class="k">データ</div>
     <div class="v">構造化・文書中心／検索が特定ソースに集中</div>
   </div>
-  <div class="chk" style="top:292mm">
+  <div class="chk" style="top:274mm">
     <div class="n">B</div>
     <div class="k">ユーザー</div>
     <div class="v">恩恵を受ける人が明確で少数（高リテラシ層から）</div>
   </div>
-  <div class="chk" style="top:424mm">
+  <div class="chk" style="top:398mm">
     <div class="n">C</div>
     <div class="k">リターン</div>
     <div class="v">コスト／売上インパクト大 × 代替割合が高い</div>
   </div>
-  <div class="chk" style="top:556mm">
+  <div class="chk" style="top:522mm">
     <div class="n">D</div>
     <div class="k">技術</div>
     <div class="v">軽く試せて、結果を定量で測れる</div>
@@ -112,8 +112,8 @@
   </div>
 
   <div id="meta">
-    <span>④b 940×900mm · 南壁内側・ロゴ下・右</span>
-    <span>床上 1200〜2100mm</span>
+    <span>④b A1縦 594×841mm · ロゴ下・右</span>
+    <span>床上 1259〜2100mm</span>
   </div>
   <div class="guides" id="g"><div class="safe"></div><div class="center"></div></div>
 </div>

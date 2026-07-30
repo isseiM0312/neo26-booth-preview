@@ -37,8 +37,8 @@
       <b>①</b> 1030×3650 — タワーNE<br>
       <b>②</b> 2310×1750 — 西壁内側・床上900<br>
       <b>③</b> 1960×300 — 南壁内側・上部<br>
-      <b style="color:#e8b84b">④a</b> 940×900 — ロゴ下左・上半分＝会社紹介／下空白<br>
-      <b style="color:#34d399">④b</b> 940×900 — ロゴ下右（貼付枠）<br>
+      <b style="color:#e8b84b">④a</b> A1縦 594×841 — ロゴ下左・上半分＝会社紹介／下空白<br>
+      <b style="color:#34d399">④b</b> A1縦 594×841 — ロゴ下右（貼付枠）<br>
       <b style="color:#34d399">⑤</b> 2310×1750 — 西壁・外面<br>
       <b style="color:#34d399">⑥</b> 1960×1750 — 南壁・外面<br>
       <b style="color:#34d399">⑦</b> 850×700 — 東カウンター前面×2<br>
@@ -223,7 +223,7 @@ const [tex1, tex2, tex3, tex4a] = await Promise.all([
   loadTex("sign-01-tower-fit.png?v=optage"),
   loadTex("sign-02-wall-fit.png?v=optage"),
   loadTex("sign-03-logo-fit.png?v=final"),
-  loadTex("sign-04a-matrix-fit.png?v=about"),
+  loadTex("sign-04a-matrix-fit.png?v=a1"),
 ]);
 
 // ② wall
@@ -287,15 +287,15 @@ function addPosterSlot({ w, h, x, y, z, rotY, label, dim, labelOff = [0, 0, 0.35
   scene.add(sp);
 }
 
-// ④a/④b 南壁内側・ロゴ下
-// 椅子背〜床上~1100に隠れないよう下端1200。上端2100（③下）。940×900×2 + gap80
+// ④a/④b 南壁内側・ロゴ下 = A1縦 (594×841) ×2
+// 上端2100（③下）→ 下端1259。椅子背~1100より上。中央寄せ・gap80
 {
-  const pw = 0.94, ph = 0.9, gap = 0.08;
-  const floor = 1.2;
+  const pw = 0.594, ph = 0.841, gap = 0.08;
+  const floor = 1.259; // 2100 - 841
   const cx = southXc - 0.1;
   const y = floor + ph / 2;
   const z = BD / 2 - WALL_T - 0.035;
-  // ④a：会社紹介（上半分）＋下半分空白テクスチャ
+  const dim = "A1縦 594×841 · 床上1259〜2100";
   if (tex4a) {
     const mat = new THREE.MeshStandardMaterial({
       color: 0xffffff, map: tex4a, roughness: 0.4,
@@ -308,15 +308,14 @@ function addPosterSlot({ w, h, x, y, z, rotY, label, dim, labelOff = [0, 0, 0.35
   } else {
     addPosterSlot({
       w: pw, h: ph, x: cx - (pw + gap) / 2, y, z,
-      rotY: Math.PI, label: "④a ロゴ下・左", dim: "940×900 · 上半分コンテンツ",
-      labelOff: [0, 0, -0.4],
+      rotY: Math.PI, label: "④a A1・左", dim,
+      labelOff: [0, 0, -0.35],
     });
   }
-  // ④b：枠のみ（制作中）
   addPosterSlot({
     w: pw, h: ph, x: cx + (pw + gap) / 2, y, z,
-    rotY: Math.PI, label: "④b ロゴ下・右", dim: "940×900 · 床上1200〜2100",
-    labelOff: [0, 0, -0.4],
+    rotY: Math.PI, label: "④b A1・右", dim,
+    labelOff: [0, 0, -0.35],
   });
 }
 // ⑤ 西壁・外面（裏壁）
@@ -421,7 +420,7 @@ const CAMS = [
   { id: "east", label: "東大通り・スタンド/⑦", pos: [7.2, 1.4, 0.2], look: [1.8, 0.6, 0.2] },
   { id: "ne", label: "北東開口", pos: [5.2, 1.7, -4.8], look: [0.3, 1.7, 0.6] },
   { id: "wall", label: "②壁面寄り", pos: [1.0, 1.65, westZc + 0.2], look: [-1.8, 1.7, westZc + 0.1] },
-  { id: "south", label: "④ロゴ下 940×900", pos: [southXc, 1.7, 0.5], look: [southXc - 0.1, 1.65, BD / 2] },
+  { id: "south", label: "④ロゴ下 A1×2", pos: [southXc, 1.7, 0.5], look: [southXc - 0.1, 1.68, BD / 2] },
   { id: "westOut", label: "⑤西・外面", pos: [-6.2, 1.6, westZc + 0.1], look: [-2, 1.2, westZc + 0.1] },
   { id: "southOut", label: "⑥南・外面", pos: [southXc, 1.5, 7.2], look: [southXc, 1.2, 3] },
   { id: "chairs", label: "商談卓・椅子＋卓上P", pos: [0.8, 1.5, 1.4], look: [-0.9, 0.9, 1.4] },
