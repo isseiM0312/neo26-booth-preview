@@ -2,119 +2,54 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>NEO26 ④a 金赤マトリクス 940×900mm</title>
+<title>NEO26 ④a 会社紹介 940×900mm</title>
 <link rel="stylesheet" href="sign-common.css">
 <style>
   @page { size: 940mm 900mm; margin: 0; }
   .board { width: 940mm; height: 900mm; }
 
-  /* 椅子（背〜床上1100）に隠れないよう下端1200固定。
-     ③ロゴ下端2200 → 上端2100。H=900。
-     幅940×2＋ギャップ80＝1960（ロゴ幅揃え）。 */
+  /* ④a ロゴ下・左 940×900 / 床上1200〜2100
+     上半分(450)＝会社紹介スライド、下半分(450)＝空白 */
 
-  #band-top { top: 0; height: 10mm; }
+  #band-top { top: 0; height: 8mm; }
 
-  #eyebrow {
-    left: 48mm; top: 28mm; right: 48mm;
-    font-size: 18mm; color: var(--sky); letter-spacing: 0.04em;
+  #panel-top {
+    left: 0; top: 0; width: 940mm; height: 450mm;
+    overflow: hidden;
   }
-  #title {
-    left: 48mm; top: 58mm; right: 48mm;
-    font-size: 48mm; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em;
-  }
-  #title .bar {
-    display: inline-block; width: 10mm; height: 42mm;
-    background: var(--sky); border-radius: 2mm;
-    margin-right: 14mm; vertical-align: -2mm;
-  }
-  #sub {
-    left: 72mm; top: 120mm; right: 48mm;
-    font-size: 18mm; color: var(--dim);
-  }
-  #lead {
-    left: 48mm; top: 152mm; width: 844mm;
-    font-size: 18mm; line-height: 1.4; color: #d5dde8;
-  }
-  #lead b { color: var(--white); font-weight: 700; }
-
-  #axis-note {
-    left: 48mm; top: 210mm; width: 844mm;
-    font-size: 20mm; font-weight: 700; color: var(--sky);
+  #panel-top img {
+    position: absolute;
+    left: 30mm; top: 36mm;
+    width: 880mm; height: auto;
+    /* ソース ~2.7:1 → 880×326 程度で上半分に収める */
   }
 
-  .matrix {
-    left: 48mm; top: 245mm; width: 844mm; height: 600mm;
+  #panel-bottom {
+    left: 0; top: 450mm; width: 940mm; height: 450mm;
+    background: var(--ink);
   }
-  .ylab {
-    position: absolute; left: 0; top: 20mm; width: 40mm; height: 500mm;
-    display: flex; flex-direction: column; justify-content: space-between;
-    align-items: center; padding: 28mm 0;
-  }
-  .ylab span {
-    writing-mode: vertical-rl; transform: rotate(180deg);
-    font-size: 16mm; color: var(--dim); letter-spacing: 0.06em;
-  }
-  .frame {
-    position: absolute; left: 50mm; top: 20mm; width: 794mm; height: 500mm;
-    border: 1.2mm solid #3a4658; border-radius: 12mm;
-  }
-  .q {
-    position: absolute; width: 50%; height: 50%;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; overflow: hidden;
-  }
-  .q.tl {
-    left: 0; top: 0;
-    border-right: 1mm solid #2a3344; border-bottom: 1mm solid #2a3344;
-    border-top-left-radius: 11mm;
-  }
-  .q.tr {
-    left: 50%; top: 0; border-bottom: 1mm solid #2a3344;
-    border-top-right-radius: 11mm;
-    background: linear-gradient(155deg, #2a2110 0%, #16120a 55%, #0e121a 100%);
-  }
-  .q.bl {
-    left: 0; top: 50%; border-right: 1mm solid #2a3344;
-    border-bottom-left-radius: 11mm;
-    background: linear-gradient(155deg, #2a1212 0%, #160e0e 55%, #0e121a 100%);
-  }
-  .q.br { left: 50%; top: 50%; border-bottom-right-radius: 11mm; }
-  .q .body { font-size: 24mm; font-weight: 700; line-height: 1.35; }
-  .q.tr .body { color: #f3e6c2; }
-  .q.bl .body { color: #f0c8c8; }
 
-  .badge {
-    position: absolute; width: 78mm; height: 78mm; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 38mm; font-weight: 900; color: #0a0c10;
-    box-shadow: 0 2mm 10mm rgba(0,0,0,.45); z-index: 3;
-  }
-  .badge.gold {
-    left: 740mm; top: -12mm;
-    background: radial-gradient(circle at 35% 30%, #f2d078, #e8b84b 55%, #b8892a);
-  }
-  .badge.red {
-    left: 12mm; top: 454mm;
-    background: radial-gradient(circle at 35% 30%, #f08888, #e86060 55%, #a83838);
-    color: #1a0808;
-  }
-  .xlab {
-    position: absolute; left: 50mm; top: 540mm; width: 794mm;
-    display: flex; justify-content: space-between;
-    font-size: 16mm; color: var(--dim);
+  #split {
+    left: 40mm; top: 450mm; width: 860mm; height: 0.6mm;
+    background: #1a212c;
   }
 
   #meta {
-    position: absolute; left: 48mm; bottom: 14mm; right: 48mm;
+    position: absolute; left: 40mm; right: 40mm; bottom: 18mm;
     font-size: 12mm; color: #5a6575;
     display: flex; justify-content: space-between;
+  }
+  #blank-note {
+    position: absolute; left: 0; top: 620mm; width: 940mm;
+    text-align: center; font-size: 16mm; color: #3a4454;
+    letter-spacing: 0.08em;
   }
 </style>
 </head>
 <body>
 
 <div class="toolbar noprint">
-  <b>④a 金赤図</b> 940×900mm · 床上1200〜2100
+  <b>④a 会社紹介</b> 940×900mm · 上半分コンテンツ／下半分空白 · 床上1200〜2100
   <button onclick="setZoom('fit')">画面に合わせる</button>
   <button onclick="setZoom(0.4)">40%</button>
   <button onclick="setZoom(1)">実寸 100%</button>
@@ -127,38 +62,19 @@
 
   <div class="band" id="band-top"></div>
 
-  <div class="layer eyebrow" id="eyebrow">東京大学 松尾研発スタートアップ</div>
-  <div class="layer" id="title"><span class="bar"></span>金の課題、赤の課題</div>
-  <div class="layer" id="sub">〜 成果に繋がる課題の目利きとは 〜</div>
-  <div class="layer" id="lead">
-    失敗は「結果が出ない」か「結果が測れない」。<b>右上が金</b>、左下が<b>赤</b>。
+  <div class="layer" id="panel-top">
+    <img src="parts/about-wanderlust.png" alt="株式会社Wanderlustについて">
   </div>
 
-  <div class="layer" id="axis-note">定義：進捗 × 効果測定</div>
-
-  <div class="layer matrix">
-    <div class="ylab">
-      <span>効果を測定できる</span>
-      <span>効果を測定できない</span>
-    </div>
-    <div class="frame">
-      <div class="q tl"></div>
-      <div class="q tr"><div class="body">進捗を生める<br>× 測定できる</div></div>
-      <div class="q bl"><div class="body">進捗を生めない<br>× 測定できない</div></div>
-      <div class="q br"></div>
-      <div class="badge gold">金</div>
-      <div class="badge red">赤</div>
-    </div>
-    <div class="xlab">
-      <span>← 進捗を生めない</span>
-      <span>進捗を生める →</span>
-    </div>
-  </div>
+  <div class="layer" id="panel-bottom"></div>
+  <div class="layer" id="split"></div>
+  <div class="layer" id="blank-note">（下半分 · 空白）</div>
 
   <div id="meta">
-    <span>④a 940×900mm · 南壁内側・ロゴ下・左</span>
+    <span>④a 940×900mm · 南壁内側・ロゴ下・左 · 上半分＝会社紹介</span>
     <span>床上 1200〜2100mm</span>
   </div>
+
   <div class="guides" id="g"><div class="safe"></div><div class="center"></div></div>
 </div>
 </div>
@@ -179,6 +95,11 @@ if (raster && raster !== "print") {
   document.documentElement.classList.add("raster");
   document.getElementById("board").style.zoom =
     Number(raster) / (Number(document.getElementById("board").dataset.w) * PX_PER_MM);
+  // ラスタ時は空白メモを消す
+  const n = document.getElementById("blank-note");
+  if (n) n.style.display = "none";
+  const m = document.getElementById("meta");
+  if (m) m.style.display = "none";
 } else {
   setZoom("fit");
   addEventListener("resize", () => setZoom("fit"));
