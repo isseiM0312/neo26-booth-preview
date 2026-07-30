@@ -42,6 +42,7 @@
       <b style="color:#34d399">⑤</b> 2310×1750 — 西壁・外面<br>
       <b style="color:#34d399">⑥</b> 1960×1750 — 南壁・外面<br>
       <b style="color:#34d399">⑦</b> 850×700 — 東カウンター前面×2<br>
+      <b style="color:#34d399">⑧</b> 1030×3650 — タワー裏面（テープ貼・要昭栄確認）<br>
       <b style="color:#93c5fd">P</b> チラシスタンド 通り3＋卓上2<br>
       <a href="booth-plan-final.html" style="color:#6ea0ff">確定プランを開く →</a>
     </div>
@@ -381,7 +382,7 @@ flyerFloor(1.75, 2.0, Math.PI / 2);
 flyerTable(-0.9, 0.9, 0);
 flyerTable(-0.9, 2.0, 0);
 
-// ① tower face
+// ① tower face（北東・入稿済）
 {
   const mat = new THREE.MeshStandardMaterial({
     color: 0xffffff, map: tex1, roughness: 0.38,
@@ -394,6 +395,25 @@ flyerTable(-0.9, 2.0, 0);
   face.rotation.y = faceRot;
   scene.add(face);
 }
+// ⑧ tower back（南西向き・テープ貼候補。①と同寸）
+{
+  const backRot = rot; // ①の反対面
+  const off = td / 2 + 0.025;
+  addPosterSlot({
+    w: 1.03, h: 3.65,
+    x: tx + Math.sin(backRot) * off,
+    y: th / 2,
+    z: tz + Math.cos(backRot) * off,
+    rotY: backRot,
+    label: "⑧ タワー裏",
+    dim: "1030×3650 · テープ貼",
+    labelOff: [
+      Math.sin(backRot) * 0.55,
+      0.2,
+      Math.cos(backRot) * 0.55,
+    ],
+  });
+}
 
 const CAMS = [
   { id: "aerial", label: "俯瞰", pos: [5.5, 6.8, 5.2], look: [0, 1.2, 0] },
@@ -405,7 +425,8 @@ const CAMS = [
   { id: "westOut", label: "⑤西・外面", pos: [-6.2, 1.6, westZc + 0.1], look: [-2, 1.2, westZc + 0.1] },
   { id: "southOut", label: "⑥南・外面", pos: [southXc, 1.5, 7.2], look: [southXc, 1.2, 3] },
   { id: "chairs", label: "商談卓・椅子＋卓上P", pos: [0.8, 1.5, 1.4], look: [-0.9, 0.9, 1.4] },
-  { id: "tower", label: "①タワー寄り", pos: [tx + 2.4, 2.0, tz - 2.4], look: [tx, 1.9, tz] },
+  { id: "tower", label: "①タワー正面", pos: [tx + 2.4, 2.0, tz - 2.4], look: [tx, 1.9, tz] },
+  { id: "towerBack", label: "⑧タワー裏・テープ", pos: [tx - 2.2, 1.9, tz + 2.2], look: [tx, 1.9, tz] },
 ];
 
 function setCam(c) {
