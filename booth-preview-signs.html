@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NEO26 ブースプレビュー — 最終確定サイン①②③</title>
+<title>NEO26 ブースプレビュー — 確定サイン＋貼付枠＋チラシスタンド</title>
 <style>
   :root { --bg:#0c0d10; --panel:#14171c; --line:#2a3038; --text:#e8eaed; --muted:#8b929b; --accent:#6ea0ff; --hot:#f59e0b; }
   * { box-sizing:border-box; margin:0; padding:0; }
@@ -30,13 +30,18 @@
 <body>
 <div id="app">
   <aside>
-    <h1>最終確定サイン貼付</h1>
-    <p class="sub">0722確定プラン（4×6・L字・AX3ブルー）＋Figma最終①②③をテクスチャ貼り。</p>
+    <h1>最終確定サイン＋貼付枠</h1>
+    <p class="sub">①②③確定テクスチャ（関係企業にOPTAGE追加）。緑＝両面テープ等の追加貼付候補。チラシスタンド＝通り3＋卓上2。</p>
     <div id="cams"></div>
     <div class="note">
       <b>①</b> 1030×3650 — タワーNE<br>
-      <b>②</b> 2310×1750 — 西壁・床上900<br>
-      <b>③</b> 1960×300 — 南壁上部<br>
+      <b>②</b> 2310×1750 — 西壁内側・床上900<br>
+      <b>③</b> 1960×300 — 南壁内側・上部<br>
+      <b style="color:#34d399">④a/b</b> 940×1600×2 — ロゴ下（制作中）<br>
+      <b style="color:#34d399">⑤</b> 2310×1750 — 西壁・外面<br>
+      <b style="color:#34d399">⑥</b> 1960×1750 — 南壁・外面<br>
+      <b style="color:#34d399">⑦</b> 850×700 — 東カウンター前面×2<br>
+      <b style="color:#93c5fd">P</b> チラシスタンド 通り3＋卓上2<br>
       <a href="booth-plan-final.html" style="color:#6ea0ff">確定プランを開く →</a>
     </div>
   </aside>
@@ -154,21 +159,44 @@ box(southLen, 0.15, WALL_T + 0.01, matBlue, southXc, WALL_H - 0.075, BD / 2 - WA
 // furniture
 box(0.45, 1.0, 0.9, matBlack, BW / 2 - 0.45, 0.5, -0.3);
 box(0.45, 1.0, 0.9, matBlack, BW / 2 - 0.45, 0.5, 0.7);
+const matSeat = new THREE.MeshStandardMaterial({ color: 0x2a2f38, roughness: 0.55, metalness: 0.05 });
+const matChairAccent = new THREE.MeshStandardMaterial({ color: 0xd8dde6, roughness: 0.45 });
+
 function table(x, z) {
   const top = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.04, 28), matBlack);
-  top.position.set(x, 1.0, z); scene.add(top);
-  const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 1.0, 12), matChrome);
-  leg.position.set(x, 0.5, z); scene.add(leg);
+  top.position.set(x, 1.05, z); scene.add(top);
+  const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 1.05, 12), matChrome);
+  leg.position.set(x, 0.525, z); scene.add(leg);
+  const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.18, 0.03, 24), matChrome);
+  foot.position.set(x, 0.02, z); scene.add(foot);
 }
-function chair(x, z) {
-  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.05, 0.36), matWhite);
-  seat.position.set(x, 0.72, z); scene.add(seat);
-  const back = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.32, 0.04), matWhite);
-  back.position.set(x, 0.9, z - 0.16); scene.add(back);
+/** ハイスツール。座位が卓に向く（ローカル +Z = 正面）。背は -Z */
+function stool(x, z, rotY = 0) {
+  const g = new THREE.Group();
+  // 脚（クロム）— 俯瞰でも「椅子」と読める軸
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.04, 0.7, 12), matChrome);
+  pole.position.set(0, 0.38, 0);
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.2, 0.03, 20), matChrome);
+  base.position.set(0, 0.02, 0);
+  // 座面（暗色・厚め）
+  const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.19, 0.06, 20), matSeat);
+  seat.position.set(0, 0.75, 0);
+  // 背もたれ（明るいアクセントで向きが一目で分かる）
+  const back = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.28, 0.04), matChairAccent);
+  back.position.set(0, 0.96, -0.14);
+  const backPost = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.22, 0.04), matChrome);
+  backPost.position.set(0, 0.86, -0.14);
+  g.add(base, pole, seat, backPost, back);
+  g.position.set(x, 0, z);
+  g.rotation.y = rotY;
+  scene.add(g);
 }
+// Φ600 ハイテーブル ×2。椅子は卓の東西に正対（背が外、正面が卓）
 table(-0.9, 0.9); table(-0.9, 2.0);
-chair(-1.35, 0.9); chair(-0.45, 0.9);
-chair(-1.35, 2.0); chair(-0.45, 2.0);
+stool(-1.38, 0.9, Math.PI / 2);   // 西 → 東向き（卓へ）
+stool(-0.42, 0.9, -Math.PI / 2);  // 東 → 西向き（卓へ）
+stool(-1.38, 2.0, Math.PI / 2);
+stool(-0.42, 2.0, -Math.PI / 2);
 
 // spots on wall
 [[-1.8, 1.2], [-1.8, 2.5], [-0.4, 2.85]].forEach(([x, z]) => {
@@ -190,8 +218,8 @@ towerFill.position.set(tx + faceDir.x * 1.1, 1.7, tz + faceDir.y * 1.1);
 scene.add(towerFill);
 
 const [tex1, tex2, tex3] = await Promise.all([
-  loadTex("sign-01-tower-fit.png?v=final"),
-  loadTex("sign-02-wall-fit.png?v=final"),
+  loadTex("sign-01-tower-fit.png?v=optage"),
+  loadTex("sign-02-wall-fit.png?v=optage"),
   loadTex("sign-03-logo-fit.png?v=final"),
 ]);
 
@@ -219,6 +247,118 @@ const [tex1, tex2, tex3] = await Promise.all([
   scene.add(logo);
 }
 
+function addPosterSlot({ w, h, x, y, z, rotY, label, labelOff = [0, 0, 0.35] }) {
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x0f1a16,
+    roughness: 0.55,
+    transparent: true,
+    opacity: 0.9,
+    emissive: 0x0a2a1a,
+    emissiveIntensity: 0.35,
+    side: THREE.DoubleSide,
+  });
+  const panel = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+  panel.position.set(x, y, z);
+  panel.rotation.y = rotY;
+  scene.add(panel);
+  const c = document.createElement("canvas");
+  c.width = 512; c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "rgba(0,0,0,0.72)";
+  ctx.roundRect(24, 56, 464, 144, 20); ctx.fill();
+  ctx.strokeStyle = "#34d399"; ctx.lineWidth = 8; ctx.stroke();
+  ctx.fillStyle = "#34d399";
+  ctx.font = "bold 72px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(label, 256, 150);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: new THREE.CanvasTexture(c), depthTest: false,
+  }));
+  sp.scale.set(Math.max(1.1, w * 0.7), Math.max(0.55, w * 0.35), 1);
+  sp.position.set(x + labelOff[0], y + labelOff[1], z + labelOff[2]);
+  scene.add(sp);
+}
+
+// ④a/④b 南壁内側・ロゴ下（制作中 → 緑スロット。白抜け防止）
+{
+  const pw = 0.94, ph = 1.6, gap = 0.08;
+  const cx = southXc - 0.1;
+  const y = 0.35 + ph / 2;
+  const z = BD / 2 - WALL_T - 0.035;
+  addPosterSlot({
+    w: pw, h: ph, x: cx - (pw + gap) / 2, y, z,
+    rotY: Math.PI, label: "④a ロゴ下・左",
+    labelOff: [0, 0, -0.4],
+  });
+  addPosterSlot({
+    w: pw, h: ph, x: cx + (pw + gap) / 2, y, z,
+    rotY: Math.PI, label: "④b ロゴ下・右",
+    labelOff: [0, 0, -0.4],
+  });
+}
+// ⑤ 西壁・外面（裏壁）
+addPosterSlot({
+  w: 2.31, h: 1.75,
+  x: -BW / 2 - 0.02, y: 0.35 + 1.75 / 2, z: westZc + 0.1,
+  rotY: Math.PI / 2, label: "⑤ 西・外面",
+  labelOff: [-0.45, 0, 0],
+});
+// ⑥ 南壁・外面（裏壁）
+addPosterSlot({
+  w: 1.96, h: 1.75,
+  x: southXc - 0.1, y: 0.35 + 1.75 / 2, z: BD / 2 + 0.02,
+  rotY: 0, label: "⑥ 南・外面",
+  labelOff: [0, 0, 0.45],
+});
+// ⑦ 東カウンター前面（外向けデスク下）×2
+[
+  { z: -0.3, tag: "⑦a" },
+  { z: 0.7, tag: "⑦b" },
+].forEach(({ z, tag }) => {
+  addPosterSlot({
+    w: 0.85, h: 0.7,
+    x: BW / 2 + 0.02, y: 0.15 + 0.7 / 2, z,
+    rotY: -Math.PI / 2, label: `${tag} デスク下`,
+    labelOff: [0.4, 0, 0],
+  });
+});
+
+// —— チラシスタンド：通り（東大通り側）3 ＋ 卓上2 ——
+const matFlyer = new THREE.MeshStandardMaterial({ color: 0xeef2f8, roughness: 0.4 });
+const matFlyerDark = new THREE.MeshStandardMaterial({ color: 0x2a3140, roughness: 0.5 });
+function flyerFloor(x, z, rotY = 0) {
+  const g = new THREE.Group();
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.04, 0.24), matChrome);
+  base.position.y = 0.02;
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.018, 1.1, 10), matChrome);
+  pole.position.y = 0.57;
+  const back = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.38, 0.02), matFlyerDark);
+  back.position.set(0, 1.25, -0.01);
+  const sheet = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.32, 0.01), matFlyer);
+  sheet.position.set(0, 1.25, 0.01);
+  g.add(base, pole, back, sheet);
+  g.position.set(x, 0, z);
+  g.rotation.y = rotY;
+  scene.add(g);
+}
+function flyerTable(x, z, rotY = 0) {
+  const g = new THREE.Group();
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.02, 0.1), matChrome);
+  const sheet = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.008), matFlyer);
+  sheet.position.set(0, 0.1, -0.02);
+  sheet.rotation.x = -0.25;
+  g.add(base, sheet);
+  g.position.set(x, 1.07, z);
+  g.rotation.y = rotY;
+  scene.add(g);
+}
+// 東開口・大通り側に正対（正面=+X）
+flyerFloor(1.75, -1.6, Math.PI / 2);
+flyerFloor(1.75, 0.2, Math.PI / 2);
+flyerFloor(1.75, 2.0, Math.PI / 2);
+flyerTable(-0.9, 0.9, 0);
+flyerTable(-0.9, 2.0, 0);
+
 // ① tower face
 {
   const mat = new THREE.MeshStandardMaterial({
@@ -236,9 +376,13 @@ const [tex1, tex2, tex3] = await Promise.all([
 const CAMS = [
   { id: "aerial", label: "俯瞰", pos: [5.5, 6.8, 5.2], look: [0, 1.2, 0] },
   { id: "north", label: "北から（①②正面）", pos: [0.4, 1.65, -7], look: [0.5, 1.6, 0.5] },
-  { id: "east", label: "東大通りから", pos: [7.2, 1.65, 0.2], look: [0.4, 1.6, 0.3] },
+  { id: "east", label: "東大通り・スタンド/⑦", pos: [7.2, 1.4, 0.2], look: [1.8, 0.6, 0.2] },
   { id: "ne", label: "北東開口", pos: [5.2, 1.7, -4.8], look: [0.3, 1.7, 0.6] },
   { id: "wall", label: "②壁面寄り", pos: [1.0, 1.65, westZc + 0.2], look: [-1.8, 1.7, westZc + 0.1] },
+  { id: "south", label: "④ロゴ下（貼付枠）", pos: [southXc, 1.5, 0.4], look: [southXc - 0.1, 1.225, BD / 2] },
+  { id: "westOut", label: "⑤西・外面", pos: [-6.2, 1.6, westZc + 0.1], look: [-2, 1.2, westZc + 0.1] },
+  { id: "southOut", label: "⑥南・外面", pos: [southXc, 1.5, 7.2], look: [southXc, 1.2, 3] },
+  { id: "chairs", label: "商談卓・椅子＋卓上P", pos: [0.8, 1.5, 1.4], look: [-0.9, 0.9, 1.4] },
   { id: "tower", label: "①タワー寄り", pos: [tx + 2.4, 2.0, tz - 2.4], look: [tx, 1.9, tz] },
 ];
 
