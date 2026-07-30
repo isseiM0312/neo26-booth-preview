@@ -10,11 +10,16 @@
     display: grid; place-items: center; padding: 32px;
   }
   .box {
-    max-width: 520px; background: #11151c; border: 1px solid #2a3344;
+    max-width: 560px; background: #11151c; border: 1px solid #2a3344;
     border-radius: 14px; padding: 28px 24px;
   }
   h1 { font-size: 18px; margin: 0 0 8px; }
-  p { color: #9aa3b2; font-size: 13px; line-height: 1.55; margin: 0 0 18px; }
+  p { color: #9aa3b2; font-size: 13px; line-height: 1.55; margin: 0 0 12px; }
+  .dims {
+    background: #0f1520; border: 1px solid #2a3344; border-radius: 10px;
+    padding: 12px 14px; font-size: 13px; line-height: 1.55; margin-bottom: 16px;
+  }
+  .dims b { color: #34d399; }
   a {
     display: block; margin-top: 8px; padding: 12px 14px;
     background: #0f1520; border: 1px solid #2a3344; border-radius: 10px;
@@ -27,12 +32,14 @@
 <body>
 <div class="box">
   <h1>④ ロゴ下は2枚構成</h1>
-  <p>
-    旧・一枚もの（1960×1750）はやめて、左右2枚の縦ポスターに分割。
-    幅940×高さ1600 ×2、中央ギャップ80mm（合計幅1960）。
-  </p>
-  <a href="sign-04a-matrix.html">④a 金赤マトリクス <span class="dim">940×1600 · 左</span></a>
-  <a href="sign-04b-checks.html">④b 目利き4観点＋CTA <span class="dim">940×1600 · 右</span></a>
+  <p>椅子（背〜床上約1100）に隠れないよう、下端を床上1200に上げて縮小。</p>
+  <div class="dims">
+    <b>各枚</b> 940 × 900 mm<br>
+    <b>配置</b> 左右2枚・中央ギャップ 80 mm（合計幅 1960）<br>
+    <b>高さ</b> 床上 1200 〜 2100 mm（③ロゴ下端 2200 の下）
+  </div>
+  <a href="sign-04a-matrix.html">④a 金赤マトリクス <span class="dim">940×900 · 左</span></a>
+  <a href="sign-04b-checks.html">④b 目利き4観点＋CTA <span class="dim">940×900 · 右</span></a>
 </div>
 </body>
 </html>

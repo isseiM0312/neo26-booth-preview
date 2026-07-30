@@ -2,61 +2,61 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>NEO26 ④a 金赤マトリクス 940×1600mm</title>
+<title>NEO26 ④a 金赤マトリクス 940×900mm</title>
 <link rel="stylesheet" href="sign-common.css">
 <style>
-  @page { size: 940mm 1600mm; margin: 0; }
-  .board { width: 940mm; height: 1600mm; }
+  @page { size: 940mm 900mm; margin: 0; }
+  .board { width: 940mm; height: 900mm; }
 
-  /* ロゴ下スペース 1960×〜1750 を左右2枚。
-     ④a/④b 各 940×1600、中央ギャップ 80 → 計1960幅。
-     床上350〜1950、③ロゴ下端2200まで余白250。 */
+  /* 椅子（背〜床上1100）に隠れないよう下端1200固定。
+     ③ロゴ下端2200 → 上端2100。H=900。
+     幅940×2＋ギャップ80＝1960（ロゴ幅揃え）。 */
 
-  #band-top { top: 0; height: 12mm; }
+  #band-top { top: 0; height: 10mm; }
 
   #eyebrow {
-    left: 56mm; top: 40mm; right: 56mm;
-    font-size: 22mm; color: var(--sky); letter-spacing: 0.04em;
+    left: 48mm; top: 28mm; right: 48mm;
+    font-size: 18mm; color: var(--sky); letter-spacing: 0.04em;
   }
   #title {
-    left: 56mm; top: 84mm; right: 56mm;
-    font-size: 64mm; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em;
+    left: 48mm; top: 58mm; right: 48mm;
+    font-size: 48mm; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em;
   }
   #title .bar {
-    display: inline-block; width: 12mm; height: 58mm;
-    background: var(--sky); border-radius: 3mm;
-    margin-right: 18mm; vertical-align: -4mm;
+    display: inline-block; width: 10mm; height: 42mm;
+    background: var(--sky); border-radius: 2mm;
+    margin-right: 14mm; vertical-align: -2mm;
   }
   #sub {
-    left: 86mm; top: 240mm; right: 56mm;
-    font-size: 24mm; color: var(--dim);
+    left: 72mm; top: 120mm; right: 48mm;
+    font-size: 18mm; color: var(--dim);
   }
   #lead {
-    left: 56mm; top: 300mm; width: 828mm;
-    font-size: 24mm; line-height: 1.5; color: #d5dde8;
+    left: 48mm; top: 152mm; width: 844mm;
+    font-size: 18mm; line-height: 1.4; color: #d5dde8;
   }
   #lead b { color: var(--white); font-weight: 700; }
 
   #axis-note {
-    left: 56mm; top: 420mm; width: 828mm;
-    font-size: 26mm; font-weight: 700; color: var(--sky);
+    left: 48mm; top: 210mm; width: 844mm;
+    font-size: 20mm; font-weight: 700; color: var(--sky);
   }
 
   .matrix {
-    left: 56mm; top: 470mm; width: 828mm; height: 980mm;
+    left: 48mm; top: 245mm; width: 844mm; height: 600mm;
   }
   .ylab {
-    position: absolute; left: 0; top: 40mm; width: 48mm; height: 780mm;
+    position: absolute; left: 0; top: 20mm; width: 40mm; height: 500mm;
     display: flex; flex-direction: column; justify-content: space-between;
-    align-items: center; padding: 48mm 0;
+    align-items: center; padding: 28mm 0;
   }
   .ylab span {
     writing-mode: vertical-rl; transform: rotate(180deg);
-    font-size: 20mm; color: var(--dim); letter-spacing: 0.08em;
+    font-size: 16mm; color: var(--dim); letter-spacing: 0.06em;
   }
   .frame {
-    position: absolute; left: 60mm; top: 40mm; width: 768mm; height: 780mm;
-    border: 1.4mm solid #3a4658; border-radius: 16mm;
+    position: absolute; left: 50mm; top: 20mm; width: 794mm; height: 500mm;
+    border: 1.2mm solid #3a4658; border-radius: 12mm;
   }
   .q {
     position: absolute; width: 50%; height: 50%;
@@ -66,74 +66,72 @@
   .q.tl {
     left: 0; top: 0;
     border-right: 1mm solid #2a3344; border-bottom: 1mm solid #2a3344;
-    border-top-left-radius: 14mm;
+    border-top-left-radius: 11mm;
   }
   .q.tr {
     left: 50%; top: 0; border-bottom: 1mm solid #2a3344;
-    border-top-right-radius: 14mm;
+    border-top-right-radius: 11mm;
     background: linear-gradient(155deg, #2a2110 0%, #16120a 55%, #0e121a 100%);
   }
   .q.bl {
     left: 0; top: 50%; border-right: 1mm solid #2a3344;
-    border-bottom-left-radius: 14mm;
+    border-bottom-left-radius: 11mm;
     background: linear-gradient(155deg, #2a1212 0%, #160e0e 55%, #0e121a 100%);
   }
-  .q.br { left: 50%; top: 50%; border-bottom-right-radius: 14mm; }
-  .q .body {
-    font-size: 28mm; font-weight: 700; line-height: 1.4;
-  }
+  .q.br { left: 50%; top: 50%; border-bottom-right-radius: 11mm; }
+  .q .body { font-size: 24mm; font-weight: 700; line-height: 1.35; }
   .q.tr .body { color: #f3e6c2; }
   .q.bl .body { color: #f0c8c8; }
 
   .badge {
-    position: absolute; width: 100mm; height: 100mm; border-radius: 50%;
+    position: absolute; width: 78mm; height: 78mm; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 48mm; font-weight: 900; color: #0a0c10;
-    box-shadow: 0 3mm 12mm rgba(0,0,0,.45); z-index: 3;
+    font-size: 38mm; font-weight: 900; color: #0a0c10;
+    box-shadow: 0 2mm 10mm rgba(0,0,0,.45); z-index: 3;
   }
   .badge.gold {
-    left: 700mm; top: -18mm;
+    left: 740mm; top: -12mm;
     background: radial-gradient(circle at 35% 30%, #f2d078, #e8b84b 55%, #b8892a);
   }
   .badge.red {
-    left: 18mm; top: 720mm;
+    left: 12mm; top: 454mm;
     background: radial-gradient(circle at 35% 30%, #f08888, #e86060 55%, #a83838);
     color: #1a0808;
   }
   .xlab {
-    position: absolute; left: 60mm; top: 850mm; width: 768mm;
+    position: absolute; left: 50mm; top: 540mm; width: 794mm;
     display: flex; justify-content: space-between;
-    font-size: 20mm; color: var(--dim);
+    font-size: 16mm; color: var(--dim);
   }
 
   #meta {
-    position: absolute; right: 28mm; bottom: 18mm;
+    position: absolute; left: 48mm; bottom: 14mm; right: 48mm;
     font-size: 12mm; color: #5a6575;
+    display: flex; justify-content: space-between;
   }
 </style>
 </head>
 <body>
 
 <div class="toolbar noprint">
-  <b>④a 金赤図</b> 940×1600mm · ロゴ下・左
+  <b>④a 金赤図</b> 940×900mm · 床上1200〜2100
   <button onclick="setZoom('fit')">画面に合わせる</button>
-  <button onclick="setZoom(0.3)">30%</button>
+  <button onclick="setZoom(0.4)">40%</button>
   <button onclick="setZoom(1)">実寸 100%</button>
   <button onclick="document.getElementById('g').classList.toggle('on')">ガイド表示</button>
   <button onclick="print()">PDFに保存</button>
 </div>
 
 <div class="stage">
-<div class="board" id="board" data-w="940" data-h="1600">
+<div class="board" id="board" data-w="940" data-h="900">
 
   <div class="band" id="band-top"></div>
 
   <div class="layer eyebrow" id="eyebrow">東京大学 松尾研発スタートアップ</div>
-  <div class="layer" id="title"><span class="bar"></span>金の課題、<br>赤の課題</div>
+  <div class="layer" id="title"><span class="bar"></span>金の課題、赤の課題</div>
   <div class="layer" id="sub">〜 成果に繋がる課題の目利きとは 〜</div>
   <div class="layer" id="lead">
-    失敗は「結果が出ない」か「結果が測れない」。<br>
-    <b>両立できる右上が金</b>、両方できない左下が<b>赤</b>。
+    失敗は「結果が出ない」か「結果が測れない」。<b>右上が金</b>、左下が<b>赤</b>。
   </div>
 
   <div class="layer" id="axis-note">定義：進捗 × 効果測定</div>
@@ -157,7 +155,10 @@
     </div>
   </div>
 
-  <div id="meta">④a 940×1600mm · 南壁内側・ロゴ下・左</div>
+  <div id="meta">
+    <span>④a 940×900mm · 南壁内側・ロゴ下・左</span>
+    <span>床上 1200〜2100mm</span>
+  </div>
   <div class="guides" id="g"><div class="safe"></div><div class="center"></div></div>
 </div>
 </div>
