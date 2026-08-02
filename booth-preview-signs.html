@@ -31,7 +31,7 @@
 <div id="app">
   <aside>
     <h1>最終確定サイン＋貼付枠</h1>
-    <p class="sub">①②③確定＋シート5枚（④ロゴ下2／⑨検索／⑧タワー裏2）。緑＝空き枠。チラシスタンド＝通り3＋卓上2。</p>
+    <p class="sub">①②③確定＋シート5枚（④ロゴ下2／⑨検索／⑧タワー裏2）。空き緑枠⑤⑥⑦は非表示。チラシスタンド＝東2＋北1＋卓上2。</p>
     <div id="cams"></div>
     <div class="note">
       <b>①</b> 1030×3650 — タワーNE<br>
@@ -40,9 +40,7 @@
       <b>③</b> 1960×300 — 南壁内側・上部<br>
       <b style="color:#e8b84b">④a</b> A0縦 841×1189 — ロゴ下左・AX戦略コンサルティング<br>
       <b style="color:#e8b84b">④b</b> A0縦 841×1189 — ロゴ下右・なぜAXを実現できるのか？<br>
-      <b style="color:#34d399">⑤</b> 2310×1750 — 西壁・外面<br>
-      <b style="color:#34d399">⑥</b> 1960×1750 — 南壁・外面<br>
-      <b style="color:#34d399">⑦</b> 850×700 — 東カウンター前面×2<br>
+      <b style="color:#6b7280">⑤⑥⑦</b> 空き枠（緑）— いったん非表示<br>
       <b style="color:#e8b84b">⑧</b> タワー裏 A0縦×2縦積み — 前処理／評価（要昭栄確認）<br>
       <b style="color:#93c5fd">P</b> チラシスタンド（Slack実物）通路:東×2＋北×1／卓上:A4透明ポケット×2<br>
       <a href="booth-plan-final.html" style="color:#6ea0ff">確定プランを開く →</a>
@@ -232,7 +230,7 @@ const towerFill = new THREE.PointLight(0xdfe8ff, 6, 5);
 towerFill.position.set(tx + faceDir.x * 1.1, 1.7, tz + faceDir.y * 1.1);
 scene.add(towerFill);
 
-const V = "?v=20260802e";
+const V = "?v=20260802f";
 const [tex1, tex2, tex3, sh1, sh2, sh3, sh4, sh5] = await Promise.all([
   loadTex("sign-01-tower-fit.png" + V),
   loadTex("sign-02-wall-fit.png" + V),
@@ -354,33 +352,37 @@ function addPosterSlot({ w, h, x, y, z, rotY, label, dim, labelOff = [0, 0, 0.35
     rotY: Math.PI, label: "④b なぜAX", dim, labelOff: [0, 0, -0.35],
   });
 }
-// ⑤ 西壁・外面（裏壁）
-addPosterSlot({
-  w: 2.31, h: 1.75,
-  x: -BW / 2 - 0.02, y: 0.35 + 1.75 / 2, z: westZc + 0.1,
-  rotY: Math.PI / 2, label: "⑤ 西・外面", dim: "2310×1750",
-  labelOff: [-0.45, 0, 0],
-});
-// ⑥ 南壁・外面（裏壁）
-addPosterSlot({
-  w: 1.96, h: 1.75,
-  x: southXc - 0.1, y: 0.35 + 1.75 / 2, z: BD / 2 + 0.02,
-  rotY: 0, label: "⑥ 南・外面", dim: "1960×1750",
-  labelOff: [0, 0, 0.45],
-});
-// ⑦ 東カウンター前面（外向け・エプロン面）×2 — デスクに密着
-[
-  { z: -0.35, tag: "⑦a" },
-  { z: 0.85, tag: "⑦b" },
-].forEach(({ z, tag }) => {
+// ⑤⑥⑦ 空き緑枠 — いったん非表示（戻すときは true）
+const SHOW_EMPTY_SLOTS = false;
+if (SHOW_EMPTY_SLOTS) {
+  // ⑤ 西壁・外面（裏壁）
   addPosterSlot({
-    w: 0.85, h: 0.65,
-    x: BW / 2 - 0.35 + 0.28, // カウンター東面
-    y: 0.12 + 0.65 / 2, z,
-    rotY: -Math.PI / 2, label: `${tag} デスク下`, dim: "850×700",
-    labelOff: [0.35, 0.35, 0], // デスク直上寄り（スタンドと重ならない）
+    w: 2.31, h: 1.75,
+    x: -BW / 2 - 0.02, y: 0.35 + 1.75 / 2, z: westZc + 0.1,
+    rotY: Math.PI / 2, label: "⑤ 西・外面", dim: "2310×1750",
+    labelOff: [-0.45, 0, 0],
   });
-});
+  // ⑥ 南壁・外面（裏壁）
+  addPosterSlot({
+    w: 1.96, h: 1.75,
+    x: southXc - 0.1, y: 0.35 + 1.75 / 2, z: BD / 2 + 0.02,
+    rotY: 0, label: "⑥ 南・外面", dim: "1960×1750",
+    labelOff: [0, 0, 0.45],
+  });
+  // ⑦ 東カウンター前面（外向け・エプロン面）×2 — デスクに密着
+  [
+    { z: -0.35, tag: "⑦a" },
+    { z: 0.85, tag: "⑦b" },
+  ].forEach(({ z, tag }) => {
+    addPosterSlot({
+      w: 0.85, h: 0.65,
+      x: BW / 2 - 0.35 + 0.28,
+      y: 0.12 + 0.65 / 2, z,
+      rotY: -Math.PI / 2, label: `${tag} デスク下`, dim: "850×700",
+      labelOff: [0.35, 0.35, 0],
+    });
+  });
+}
 
 // —— チラシスタンド（Slack実物準拠）——
 // 通路: 折りたたみ黒スチール4段パンチング（#tmp-2608 IMG_8869＝左型2台＋同系1台）
