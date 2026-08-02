@@ -31,19 +31,20 @@
 <div id="app">
   <aside>
     <h1>最終確定サイン＋貼付枠</h1>
-    <p class="sub">①②③確定テクスチャ（関係企業にOPTAGE追加）。緑＝両面テープ等の追加貼付候補。チラシスタンド＝通り3＋卓上2。</p>
+    <p class="sub">①②③確定＋シート5枚（④ロゴ下2／⑨検索／⑧タワー裏2）。緑＝空き枠。チラシスタンド＝通り3＋卓上2。</p>
     <div id="cams"></div>
     <div class="note">
       <b>①</b> 1030×3650 — タワーNE<br>
       <b>②</b> 2310×1750 — 西壁内側・床上900<br>
+      <b style="color:#e8b84b">⑨</b> A0縦 841×1189 — ②の右・検索戦略<br>
       <b>③</b> 1960×300 — 南壁内側・上部<br>
-      <b style="color:#e8b84b">④a</b> A1縦 594×841 — ロゴ下左・上半分＝会社紹介／下空白<br>
-      <b style="color:#34d399">④b</b> A1縦 594×841 — ロゴ下右（貼付枠）<br>
+      <b style="color:#e8b84b">④a</b> A0縦 841×1189 — ロゴ下左・AX戦略コンサルティング<br>
+      <b style="color:#e8b84b">④b</b> A0縦 841×1189 — ロゴ下右・なぜAXを実現できるのか？<br>
       <b style="color:#34d399">⑤</b> 2310×1750 — 西壁・外面<br>
       <b style="color:#34d399">⑥</b> 1960×1750 — 南壁・外面<br>
       <b style="color:#34d399">⑦</b> 850×700 — 東カウンター前面×2<br>
-      <b style="color:#34d399">⑧</b> 1030×3650 — タワー裏面（テープ貼・要昭栄確認）<br>
-      <b style="color:#93c5fd">P</b> チラシスタンド 通り3＋卓上2<br>
+      <b style="color:#e8b84b">⑧</b> タワー裏 A0縦×2縦積み — 前処理／評価（要昭栄確認）<br>
+      <b style="color:#93c5fd">P</b> チラシスタンド（Slack実物）通路:東×2＋北×1／卓上:A4透明ポケット×2<br>
       <a href="booth-plan-final.html" style="color:#6ea0ff">確定プランを開く →</a>
     </div>
   </aside>
@@ -158,9 +159,19 @@ box(southLen, WALL_H, WALL_T, matBlack, southXc, WALL_H / 2, BD / 2 - WALL_T / 2
 box(WALL_T + 0.01, 0.15, westLen, matBlue, -BW / 2 + WALL_T / 2 - 0.006, WALL_H - 0.075, westZc);
 box(southLen, 0.15, WALL_T + 0.01, matBlue, southXc, WALL_H - 0.075, BD / 2 - WALL_T / 2 + 0.006);
 
-// furniture
-box(0.45, 1.0, 0.9, matBlack, BW / 2 - 0.45, 0.5, -0.3);
-box(0.45, 1.0, 0.9, matBlack, BW / 2 - 0.45, 0.5, 0.7);
+// 東カウンター×2（受付デスク）。天板＋脚で「黒キューブ」に見えないように
+function eastCounter(z) {
+  const g = new THREE.Group();
+  const top = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.05, 0.95), matBlack);
+  top.position.set(0, 1.0, 0);
+  const apron = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.72, 0.88), matBlack);
+  apron.position.set(-0.02, 0.38, 0);
+  g.add(top, apron);
+  g.position.set(BW / 2 - 0.35, 0, z);
+  scene.add(g);
+}
+eastCounter(-0.35);
+eastCounter(0.85);
 const matSeat = new THREE.MeshStandardMaterial({ color: 0x2a2f38, roughness: 0.55, metalness: 0.05 });
 const matChairAccent = new THREE.MeshStandardMaterial({ color: 0xd8dde6, roughness: 0.45 });
 
@@ -194,11 +205,13 @@ function stool(x, z, rotY = 0) {
   scene.add(g);
 }
 // Φ600 ハイテーブル ×2。椅子は卓の東西に正対（背が外、正面が卓）
-table(-0.9, 0.9); table(-0.9, 2.0);
-stool(-1.38, 0.9, Math.PI / 2);   // 西 → 東向き（卓へ）
-stool(-0.42, 0.9, -Math.PI / 2);  // 東 → 西向き（卓へ）
-stool(-1.38, 2.0, Math.PI / 2);
-stool(-0.42, 2.0, -Math.PI / 2);
+// ④A0×2 の下端911を隠さないよう、南壁から1.3m以上あけて北寄せ
+const TZ_S = 1.5, TZ_N = 0.3;
+table(-0.9, TZ_N); table(-0.9, TZ_S);
+stool(-1.38, TZ_N, Math.PI / 2);   // 西 → 東向き（卓へ）
+stool(-0.42, TZ_N, -Math.PI / 2);  // 東 → 西向き（卓へ）
+stool(-1.38, TZ_S, Math.PI / 2);
+stool(-0.42, TZ_S, -Math.PI / 2);
 
 // spots on wall
 [[-1.8, 1.2], [-1.8, 2.5], [-0.4, 2.85]].forEach(([x, z]) => {
@@ -219,12 +232,30 @@ const towerFill = new THREE.PointLight(0xdfe8ff, 6, 5);
 towerFill.position.set(tx + faceDir.x * 1.1, 1.7, tz + faceDir.y * 1.1);
 scene.add(towerFill);
 
-const [tex1, tex2, tex3, tex4a] = await Promise.all([
-  loadTex("sign-01-tower-fit.png?v=20260730c"),
-  loadTex("sign-02-wall-fit.png?v=20260730c"),
-  loadTex("sign-03-logo-fit.png?v=20260730c"),
-  loadTex("sign-04a-matrix-fit.png?v=20260730c"),
+const V = "?v=20260802e";
+const [tex1, tex2, tex3, sh1, sh2, sh3, sh4, sh5] = await Promise.all([
+  loadTex("sign-01-tower-fit.png" + V),
+  loadTex("sign-02-wall-fit.png" + V),
+  loadTex("sign-03-logo-fit.png" + V),
+  loadTex("sheet-01-ax.jpg" + V),
+  loadTex("sheet-02-why.jpg" + V),
+  loadTex("sheet-03-pre.jpg" + V),
+  loadTex("sheet-04-search.jpg" + V),
+  loadTex("sheet-05-eval.jpg" + V),
 ]);
+
+/** A0縦の確定シート。テクスチャが無ければ緑枠にフォールバック */
+function addSheet({ tex, w, h, x, y, z, rotY, label, dim, labelOff }) {
+  if (!tex) { addPosterSlot({ w, h, x, y, z, rotY, label, dim, labelOff }); return; }
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xffffff, map: tex, roughness: 0.4,
+    emissive: 0x111122, emissiveIntensity: 0.3, emissiveMap: tex,
+  });
+  const panel = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+  panel.position.set(x, y, z);
+  panel.rotation.y = rotY;
+  scene.add(panel);
+}
 
 // ② wall
 {
@@ -236,6 +267,22 @@ const [tex1, tex2, tex3, tex4a] = await Promise.all([
   panel.position.set(-BW / 2 + WALL_T + 0.03, 0.9 + 1.75 / 2, westZc + 0.1);
   panel.rotation.y = Math.PI / 2;
   scene.add(panel);
+}
+// ⑨ ②の右（北・開口側）= 検索戦略（タワー裏⑧から移動）
+{
+  const pw = 0.841, ph = 1.189, gap = 0.06;
+  const panel2North = (westZc + 0.1) - 2.31 / 2; // ②北端
+  const z9 = panel2North - gap - pw / 2;
+  addSheet({
+    tex: sh4, w: pw, h: ph,
+    x: -BW / 2 + WALL_T + 0.035,
+    y: 0.9 + ph / 2,
+    z: z9,
+    rotY: Math.PI / 2,
+    label: "⑨ 検索戦略",
+    dim: "A0縦 841×1189 · 床上900",
+    labelOff: [0.4, 0, 0],
+  });
 }
 
 // ③ logo
@@ -279,43 +326,32 @@ function addPosterSlot({ w, h, x, y, z, rotY, label, dim, labelOff = [0, 0, 0.35
     ctx.font = "bold 36px sans-serif";
     ctx.fillText(dim, 320, 180);
   }
+  // depthTest ON / depthWrite OFF：壁裏ラベルが手前を隠さず、黒矩形バグも防ぐ
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: new THREE.CanvasTexture(c), depthTest: false,
+    map: new THREE.CanvasTexture(c), depthTest: true, depthWrite: false,
   }));
-  sp.scale.set(Math.max(1.2, w * 0.85), Math.max(0.55, w * 0.38), 1);
+  sp.scale.set(Math.min(1.0, Math.max(0.55, w * 0.45)), Math.min(0.45, Math.max(0.28, w * 0.2)), 1);
   sp.position.set(x + labelOff[0], y + labelOff[1], z + labelOff[2]);
   scene.add(sp);
 }
 
-// ④a/④b 南壁内側・ロゴ下 = A1縦 (594×841) ×2
-// 上端2100（③下）→ 下端1259。椅子背~1100より上。中央寄せ・gap80
+// ④a/④b 南壁内側・ロゴ下 = A0縦 (841×1189) ×2（確定シート）
+// 上端2100（③下端2200の直下）→ 下端911。中央寄せ・gap80
 {
-  const pw = 0.594, ph = 0.841, gap = 0.08;
-  const floor = 1.259; // 2100 - 841
+  const pw = 0.841, ph = 1.189, gap = 0.08;
+  const floorY = 2.1 - ph; // 0.911
   const cx = southXc - 0.1;
-  const y = floor + ph / 2;
+  const y = floorY + ph / 2;
   const z = BD / 2 - WALL_T - 0.035;
-  const dim = "A1縦 594×841 · 床上1259〜2100";
-  if (tex4a) {
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0xffffff, map: tex4a, roughness: 0.4,
-      emissive: 0x111122, emissiveIntensity: 0.3, emissiveMap: tex4a,
-    });
-    const panel = new THREE.Mesh(new THREE.PlaneGeometry(pw, ph), mat);
-    panel.position.set(cx - (pw + gap) / 2, y, z);
-    panel.rotation.y = Math.PI;
-    scene.add(panel);
-  } else {
-    addPosterSlot({
-      w: pw, h: ph, x: cx - (pw + gap) / 2, y, z,
-      rotY: Math.PI, label: "④a A1・左", dim,
-      labelOff: [0, 0, -0.35],
-    });
-  }
-  addPosterSlot({
-    w: pw, h: ph, x: cx + (pw + gap) / 2, y, z,
-    rotY: Math.PI, label: "④b A1・右", dim,
-    labelOff: [0, 0, -0.35],
+  const dim = "A0縦 841×1189 · 床上911〜2100";
+  // 南壁を見る来場者から見て、左＝東(+X)。左に④a AX戦略、右に④b なぜAX
+  addSheet({
+    tex: sh1, w: pw, h: ph, x: cx + (pw + gap) / 2, y, z,
+    rotY: Math.PI, label: "④a AX戦略", dim, labelOff: [0, 0, -0.35],
+  });
+  addSheet({
+    tex: sh2, w: pw, h: ph, x: cx - (pw + gap) / 2, y, z,
+    rotY: Math.PI, label: "④b なぜAX", dim, labelOff: [0, 0, -0.35],
   });
 }
 // ⑤ 西壁・外面（裏壁）
@@ -332,54 +368,138 @@ addPosterSlot({
   rotY: 0, label: "⑥ 南・外面", dim: "1960×1750",
   labelOff: [0, 0, 0.45],
 });
-// ⑦ 東カウンター前面（外向けデスク下）×2
+// ⑦ 東カウンター前面（外向け・エプロン面）×2 — デスクに密着
 [
-  { z: -0.3, tag: "⑦a" },
-  { z: 0.7, tag: "⑦b" },
+  { z: -0.35, tag: "⑦a" },
+  { z: 0.85, tag: "⑦b" },
 ].forEach(({ z, tag }) => {
   addPosterSlot({
-    w: 0.85, h: 0.7,
-    x: BW / 2 + 0.02, y: 0.15 + 0.7 / 2, z,
+    w: 0.85, h: 0.65,
+    x: BW / 2 - 0.35 + 0.28, // カウンター東面
+    y: 0.12 + 0.65 / 2, z,
     rotY: -Math.PI / 2, label: `${tag} デスク下`, dim: "850×700",
-    labelOff: [0.4, 0, 0],
+    labelOff: [0.35, 0.35, 0], // デスク直上寄り（スタンドと重ならない）
   });
 });
 
-// —— チラシスタンド：通り（東大通り側）3 ＋ 卓上2 ——
-const matFlyer = new THREE.MeshStandardMaterial({ color: 0xeef2f8, roughness: 0.4 });
-const matFlyerDark = new THREE.MeshStandardMaterial({ color: 0x2a3140, roughness: 0.5 });
-function flyerFloor(x, z, rotY = 0) {
+// —— チラシスタンド（Slack実物準拠）——
+// 通路: 折りたたみ黒スチール4段パンチング（#tmp-2608 IMG_8869＝左型2台＋同系1台）
+// 卓上: ストアエキスプレス A4タテ透明ポケット（Amazon B016ZTJ6NG）×2
+const matFlyerPaper = new THREE.MeshStandardMaterial({ color: 0xeef2f7, roughness: 0.9 });
+const matFlyerBlack = new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.62, metalness: 0.25 });
+const matFlyerHole = new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 1 });
+const matFlyerClear = new THREE.MeshStandardMaterial({
+  color: 0xdfe8f2, roughness: 0.15, metalness: 0.05,
+  transparent: true, opacity: 0.55, side: THREE.DoubleSide,
+});
+
+/** Slack実物: 黒スチール・丸穴パンチング4段・Z折り。W≈270 D≈360 H≈1300 */
+function flyerFloorZigzag(x, z, rotY = 0) {
   const g = new THREE.Group();
-  const base = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.04, 0.24), matChrome);
-  base.position.y = 0.02;
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.018, 1.1, 10), matChrome);
-  pole.position.y = 0.57;
-  const back = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.38, 0.02), matFlyerDark);
-  back.position.set(0, 1.25, -0.01);
-  const sheet = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.32, 0.01), matFlyer);
-  sheet.position.set(0, 1.25, 0.01);
-  g.add(base, pole, back, sheet);
+  const shelfW = 0.255, shelfD = 0.16, lipH = 0.03;
+  // 底板（俯瞰でも黒シルエットが読める幅）
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.012, 0.36), matFlyerBlack);
+  base.position.set(0, 0.006, 0.04);
+  g.add(base);
+  const weight = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.04, 0.12), matFlyerBlack);
+  weight.position.set(0, 0.03, 0.10);
+  g.add(weight);
+
+  // 左右の太いサイドレール（俯瞰で「スタンド」と分かる縦黒）
+  [-1, 1].forEach((s) => {
+    const spine = new THREE.Mesh(new THREE.BoxGeometry(0.014, 1.22, 0.014), matFlyerBlack);
+    spine.position.set(s * (shelfW / 2 + 0.02), 0.64, -0.02);
+    // 少し後ろへ傾けてZ折り感
+    spine.rotation.x = 0.18;
+    g.add(spine);
+  });
+
+  // 段: 手前下 → 後ろ上へ階段状
+  const tiers = [
+    { y: 0.24, z: 0.13 },
+    { y: 0.52, z: 0.03 },
+    { y: 0.80, z: -0.07 },
+    { y: 1.08, z: -0.17 },
+  ];
+  const tilt = -0.48;
+  tiers.forEach(({ y, z: sz }, i) => {
+    const shelf = new THREE.Group();
+    const plate = new THREE.Mesh(new THREE.BoxGeometry(shelfW, 0.006, shelfD), matFlyerBlack);
+    shelf.add(plate);
+    // パンチング（控えめ）
+    for (let row = 0; row < 4; row++) {
+      for (let col = 0; col < 3; col++) {
+        const hole = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.007, 8), matFlyerHole);
+        hole.rotation.x = Math.PI / 2;
+        hole.position.set((col - 1) * 0.055, 0.004, (row - 1.5) * 0.03);
+        shelf.add(hole);
+      }
+    }
+    const lip = new THREE.Mesh(new THREE.BoxGeometry(shelfW, lipH, 0.007), matFlyerBlack);
+    lip.position.set(0, lipH / 2, shelfD / 2 - 0.003);
+    shelf.add(lip);
+    [-1, 1].forEach((s) => {
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.034, shelfD * 0.95), matFlyerBlack);
+      rail.position.set(s * (shelfW / 2 - 0.002), 0.017, 0);
+      shelf.add(rail);
+    });
+    // チラシは暗め（俯瞰で「床に紙が散乱」に見えないように）
+    const papers = new THREE.Mesh(
+      new THREE.BoxGeometry(shelfW - 0.04, 0.01, 0.14),
+      new THREE.MeshStandardMaterial({ color: 0x2a3344, roughness: 0.85 }),
+    );
+    papers.position.set(0, 0.012, -0.01);
+    shelf.add(papers);
+    shelf.position.set(0, y, sz);
+    shelf.rotation.x = tilt;
+    g.add(shelf);
+  });
+
   g.position.set(x, 0, z);
   g.rotation.y = rotY;
   scene.add(g);
 }
-function flyerTable(x, z, rotY = 0) {
+
+/** 卓上 A4タテ 透明ポケット（正面にチラシが見える） */
+function flyerTableAcrylic(x, z, rotY = 0) {
   const g = new THREE.Group();
-  const base = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.02, 0.1), matChrome);
-  const sheet = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.008), matFlyer);
-  sheet.position.set(0, 0.1, -0.02);
-  sheet.rotation.x = -0.25;
-  g.add(base, sheet);
+  const w = 0.22, h = 0.30, d = 0.035;
+  const back = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.003), matFlyerClear);
+  back.position.set(0, h / 2, -d / 2);
+  const front = new THREE.Mesh(new THREE.BoxGeometry(w, h * 0.42, 0.003), matFlyerClear);
+  front.position.set(0, h * 0.42 / 2, d / 2);
+  const bottom = new THREE.Mesh(new THREE.BoxGeometry(w, 0.003, d), matFlyerClear);
+  bottom.position.set(0, 0.002, 0);
+  [-1, 1].forEach((s) => {
+    const side = new THREE.Mesh(new THREE.BoxGeometry(0.003, h * 0.42, d), matFlyerClear);
+    side.position.set(s * w / 2, h * 0.42 / 2, 0);
+    g.add(side);
+  });
+  // チラシ本体（暗いグラデ想定の表紙色）
+  const paper = new THREE.Mesh(
+    new THREE.BoxGeometry(w - 0.015, h - 0.02, 0.006),
+    new THREE.MeshStandardMaterial({ color: 0x1a2333, roughness: 0.7 }),
+  );
+  paper.position.set(0, h / 2 - 0.005, -0.005);
+  // 卓上の薄い台座
+  const foot = new THREE.Mesh(new THREE.BoxGeometry(w * 0.7, 0.008, 0.08), matFlyerBlack);
+  foot.position.set(0, 0.004, 0.01);
+  g.add(back, front, bottom, paper, foot);
   g.position.set(x, 1.07, z);
   g.rotation.y = rotY;
+  // 少し後ろへ傾けて卓上スタンドらしく
+  g.rotation.x = -0.12;
   scene.add(g);
 }
-// 東開口・大通り側に正対（正面=+X）
-flyerFloor(1.75, -1.6, Math.PI / 2);
-flyerFloor(1.75, 0.2, Math.PI / 2);
-flyerFloor(1.75, 2.0, Math.PI / 2);
-flyerTable(-0.9, 0.9, 0);
-flyerTable(-0.9, 2.0, 0);
+
+// 通路スタンド×3：東大通り2＋北開口1（東に3連は偏りすぎるので真ん中を北へ）
+// 正面＝各開口の外側向け。カウンター／タワーと干渉しない位置
+flyerFloorZigzag(2.55, -0.85, Math.PI / 2);  // 東・北寄り
+flyerFloorZigzag(2.55, 1.65, Math.PI / 2);   // 東・南寄り
+flyerFloorZigzag(0.15, -3.15, Math.PI);      // 北出口（正面＝北通路）
+// 卓上スタンドは通路寄りの東カウンター上（商談卓ではなく受付側）
+flyerTableAcrylic(BW / 2 - 0.35, -0.35, -Math.PI / 2);
+flyerTableAcrylic(BW / 2 - 0.35, 0.85, -Math.PI / 2);
 
 // ① tower face（北東・入稿済）
 {
@@ -394,38 +514,44 @@ flyerTable(-0.9, 2.0, 0);
   face.rotation.y = faceRot;
   scene.add(face);
 }
-// ⑧ tower back（南西向き・テープ貼候補。①と同寸）
+// ⑧ tower back（南西向き）= 前処理／評価を A0縦×2 縦積み（検索は⑨へ）
+// タワー中央寄せ：上下余白を均等に
 {
   const backRot = rot; // ①の反対面
   const off = td / 2 + 0.025;
-  addPosterSlot({
-    w: 1.03, h: 3.65,
-    x: tx + Math.sin(backRot) * off,
-    y: th / 2,
-    z: tz + Math.cos(backRot) * off,
-    rotY: backRot,
-    label: "⑧ タワー裏",
-    dim: "1030×3650 · テープ貼",
-    labelOff: [
-      Math.sin(backRot) * 0.55,
-      0.2,
-      Math.cos(backRot) * 0.55,
-    ],
+  const bx = tx + Math.sin(backRot) * off;
+  const bz = tz + Math.cos(backRot) * off;
+  const pw = 0.841, ph = 1.189, gap = 0.08;
+  const stackH = ph * 2 + gap;
+  const topY = th / 2 + stackH / 2;
+  [
+    { tex: sh3, label: "⑧a 前処理技術" },
+    { tex: sh5, label: "⑧b 評価技術" },
+  ].forEach(({ tex, label }, i) => {
+    const y = topY - ph / 2 - i * (ph + gap);
+    addSheet({
+      tex, w: pw, h: ph, x: bx, y, z: bz, rotY: backRot,
+      label, dim: "A0縦 841×1189",
+      labelOff: [Math.sin(backRot) * 0.55, 0, Math.cos(backRot) * 0.55],
+    });
   });
 }
 
 const CAMS = [
   { id: "aerial", label: "俯瞰", pos: [5.5, 6.8, 5.2], look: [0, 1.2, 0] },
   { id: "north", label: "北から（①②正面）", pos: [0.4, 1.65, -7], look: [0.5, 1.6, 0.5] },
-  { id: "east", label: "東大通り・スタンド/⑦", pos: [7.2, 1.4, 0.2], look: [1.8, 0.6, 0.2] },
+  { id: "east", label: "東大通り・スタンド/⑦", pos: [5.8, 1.5, 0.2], look: [2.0, 0.7, 0.2] },
+  { id: "stands", label: "P 東スタンド", pos: [4.2, 1.2, 0.4], look: [2.35, 0.55, 0.4] },
+  { id: "standN", label: "P 北スタンド", pos: [0.2, 1.3, -5.2], look: [0.15, 0.6, -3.0] },
   { id: "ne", label: "北東開口", pos: [5.2, 1.7, -4.8], look: [0.3, 1.7, 0.6] },
   { id: "wall", label: "②壁面寄り", pos: [1.0, 1.65, westZc + 0.2], look: [-1.8, 1.7, westZc + 0.1] },
-  { id: "south", label: "④ロゴ下 A1×2", pos: [southXc, 1.7, 0.5], look: [southXc - 0.1, 1.68, BD / 2] },
+  { id: "slot9", label: "⑨検索戦略", pos: [1.2, 1.5, westZc - 0.9], look: [-1.8, 1.5, westZc - 0.85] },
+  { id: "south", label: "④ロゴ下 A0×2", pos: [southXc, 1.6, 0.2], look: [southXc - 0.1, 1.5, BD / 2] },
   { id: "westOut", label: "⑤西・外面", pos: [-6.2, 1.6, westZc + 0.1], look: [-2, 1.2, westZc + 0.1] },
   { id: "southOut", label: "⑥南・外面", pos: [southXc, 1.5, 7.2], look: [southXc, 1.2, 3] },
-  { id: "chairs", label: "商談卓・椅子＋卓上P", pos: [0.8, 1.5, 1.4], look: [-0.9, 0.9, 1.4] },
+  { id: "chairs", label: "商談卓・椅子＋卓上P", pos: [0.8, 1.5, 0.9], look: [-0.9, 0.9, 0.9] },
   { id: "tower", label: "①タワー正面", pos: [tx + 2.4, 2.0, tz - 2.4], look: [tx, 1.9, tz] },
-  { id: "towerBack", label: "⑧タワー裏・テープ", pos: [tx - 2.2, 1.9, tz + 2.2], look: [tx, 1.9, tz] },
+  { id: "towerBack", label: "⑧タワー裏 A0×2", pos: [tx - 3.0, 2.2, tz + 3.0], look: [tx, 1.9, tz] },
 ];
 
 function setCam(c) {

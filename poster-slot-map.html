@@ -38,12 +38,17 @@
 <div id="app">
   <aside>
     <h1>ポスター設置余地</h1>
-    <p class="sub">3D確定プラン上の空き。①②③入稿済は触らない。緑＝追加貼付候補。</p>
+    <p class="sub">①②③入稿済は触らない。橙＝確定シート配置済／緑＝まだ空いている貼付候補。</p>
 
     <div class="card main">
       <div class="id">④a/b</div>
-      <b>南壁内側・ロゴ下・2枚</b>
-      <p>A1縦 594×841 ×2。床上1259〜2100。左④a＝会社紹介（上半分）＋下空白／右④b＝枠。</p>
+      <b>南壁内側・ロゴ下・2枚（確定）</b>
+      <p>A0縦 841×1189 ×2。床上911〜2100。左④a＝AX戦略コンサルティング／右④b＝なぜAXを実現できるのか？</p>
+    </div>
+    <div class="card main">
+      <div class="id">⑨</div>
+      <b>西壁内側・②の右・検索戦略（確定）</b>
+      <p>A0縦 841×1189。床上900で②と下端揃え。開口側から見える技術の入口。</p>
     </div>
     <div class="card main">
       <div class="id">⑤⑥</div>
@@ -57,13 +62,13 @@
     </div>
     <div class="card main">
       <div class="id">⑧</div>
-      <b>タワー裏面（テープ貼）</b>
-      <p>1030×3650。①の反対面。構造OKは昭栄確認。</p>
+      <b>タワー裏面・2枚縦積み（確定）</b>
+      <p>A0縦 841×1189 ×2。上から 前処理技術／評価技術。検索戦略は⑨へ移動。構造OKは昭栄確認。</p>
     </div>
     <div class="card">
-      <div class="id" style="color:#4da6ff">P-P</div>
+      <div class="id" style="color:#4da6ff">P</div>
       <b>チラシスタンド</b>
-      <p>通路・開口付近。枠はAzusa確認。</p>
+      <p>通路: 東大通り×2＋北開口×1。卓上: 東カウンター×2。</p>
     </div>
   </aside>
 
@@ -106,26 +111,31 @@
         <rect x="108" y="261" width="10" height="162" fill="#f59e0b" stroke="#fbbf24"/>
         <text x="145" y="340" fill="#fbbf24" font-size="12" font-weight="700">② 入稿済</text>
 
+        <!-- ⑨ ②の右・検索戦略 -->
+        <rect x="108" y="188" width="10" height="66" fill="#78350f" opacity=".7" stroke="#fbbf24" stroke-width="2"/>
+        <text x="145" y="222" fill="#fbbf24" font-size="12" font-weight="800">⑨ 検索戦略</text>
+        <text x="145" y="238" fill="#fcd34d" font-size="9">A0縦</text>
+
         <!-- ③ logo -->
         <rect x="116" y="468" width="137" height="8" fill="#f59e0b"/>
         <text x="185" y="458" fill="#fbbf24" font-size="11" font-weight="700" text-anchor="middle">③ ロゴ帯</text>
 
-        <!-- ④a/b under logo — 940×900, raised above chairs -->
-        <rect x="116" y="418" width="64" height="46" fill="#065f46" opacity=".55" stroke="#34d399" stroke-width="2"/>
-        <rect x="188" y="418" width="64" height="46" fill="#065f46" opacity=".55" stroke="#34d399" stroke-width="2"/>
-        <text x="148" y="440" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">④a</text>
-        <text x="220" y="440" fill="#34d399" font-size="12" font-weight="800" text-anchor="middle">④b</text>
-        <text x="185" y="478" fill="#a7f3d0" font-size="9" text-anchor="middle">A1縦 594×841 · 床上1259〜2100</text>
+        <!-- ④a/b under logo — A0縦×2（確定シート） -->
+        <rect x="113" y="418" width="69" height="46" fill="#78350f" opacity=".6" stroke="#fbbf24" stroke-width="2"/>
+        <rect x="188" y="418" width="69" height="46" fill="#78350f" opacity=".6" stroke="#fbbf24" stroke-width="2"/>
+        <text x="147" y="440" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">④a</text>
+        <text x="222" y="440" fill="#fbbf24" font-size="12" font-weight="800" text-anchor="middle">④b</text>
+        <text x="185" y="478" fill="#fcd34d" font-size="9" text-anchor="middle">A0縦 841×1189 · 床上911〜2100</text>
 
         <!-- ① -->
         <g transform="translate(332,147) rotate(-45)">
           <rect x="-18" y="-36" width="36" height="72" rx="2" fill="#0b0f14" stroke="#60a5fa" stroke-width="2"/>
           <rect x="-20" y="-36" width="6" height="72" fill="#f59e0b"/>
           <!-- ⑧ tower back (opposite face) -->
-          <rect x="14" y="-36" width="6" height="72" fill="#065f46" stroke="#34d399" stroke-width="1"/>
+          <rect x="14" y="-36" width="6" height="72" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
         </g>
         <text x="370" y="120" fill="#fbbf24" font-size="12" font-weight="700">①</text>
-        <text x="300" y="175" fill="#34d399" font-size="11" font-weight="800">⑧裏</text>
+        <text x="292" y="175" fill="#fbbf24" font-size="11" font-weight="800">⑧裏 A0×2</text>
 
         <!-- counters + ⑦ -->
         <rect x="340" y="250" width="22" height="50" rx="2" fill="#2a2114" stroke="#f59e0b"/>
@@ -136,23 +146,29 @@
         <text x="400" y="340" fill="#34d399" font-size="12" font-weight="800">⑦b</text>
         <text x="400" y="355" fill="#a7f3d0" font-size="9">デスク下</text>
 
-        <!-- tables + chairs facing inward -->
-        <circle cx="167" cy="343" r="12" fill="#1f2937" stroke="#93c5fd"/>
-        <circle cx="167" cy="420" r="12" fill="#1f2937" stroke="#93c5fd"/>
-        <!-- chairs as small wedges facing table -->
-        <rect x="138" y="336" width="10" height="14" fill="#e5e7eb" transform="rotate(-90 143 343)"/>
-        <rect x="186" y="336" width="10" height="14" fill="#e5e7eb" transform="rotate(90 191 343)"/>
-        <text x="200" y="400" fill="#9aa1a9" font-size="8">椅子→卓向き</text>
+        <!-- tables + chairs — ④下端を隠さないよう南壁から1.3m以上あけて北寄せ -->
+        <circle cx="167" cy="301" r="12" fill="#1f2937" stroke="#93c5fd"/>
+        <circle cx="167" cy="385" r="12" fill="#1f2937" stroke="#93c5fd"/>
+        <rect x="138" y="294" width="10" height="14" fill="#e5e7eb"/>
+        <rect x="186" y="294" width="10" height="14" fill="#e5e7eb"/>
+        <rect x="138" y="378" width="10" height="14" fill="#e5e7eb"/>
+        <rect x="186" y="378" width="10" height="14" fill="#e5e7eb"/>
+        <text x="205" y="392" fill="#9aa1a9" font-size="8">椅子→卓向き（北寄せ）</text>
 
-        <!-- P-P -->
-        <rect x="400" y="180" width="18" height="40" rx="3" fill="#1e3a5f" stroke="#4da6ff" stroke-width="2"/>
-        <text x="430" y="205" fill="#4da6ff" font-size="11" font-weight="700">P-P</text>
+        <!-- P floor stands: 東×2＋北×1 -->
+        <rect x="378" y="155" width="14" height="28" rx="2" fill="#1e3a5f" stroke="#4da6ff" stroke-width="2"/>
+        <rect x="378" y="330" width="14" height="28" rx="2" fill="#1e3a5f" stroke="#4da6ff" stroke-width="2"/>
+        <rect x="200" y="48" width="28" height="14" rx="2" fill="#1e3a5f" stroke="#4da6ff" stroke-width="2"/>
+        <text x="410" y="175" fill="#4da6ff" font-size="10" font-weight="700">P東</text>
+        <text x="410" y="350" fill="#4da6ff" font-size="10" font-weight="700">P東</text>
+        <text x="214" y="40" fill="#4da6ff" font-size="10" font-weight="700" text-anchor="middle">P北</text>
       </svg>
     </div>
 
     <p class="note">
       <b style="color:#e8eaed">更新:</b>
-      ④はA1縦（594×841）×2に変更。⑧タワー裏テープ貼（1030×3650・昭栄確認）。
+      確定版5枚を配置。④ロゴ下＝A0縦×2（AX戦略／なぜAX）、⑨②右＝検索戦略、⑧タワー裏＝A0縦×2（前処理／評価）。
+      緑枠⑤⑥⑦はまだ空き。
     </p>
   </main>
 </div>
